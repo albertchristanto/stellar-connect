@@ -25,7 +25,7 @@ class RMessage extends Roketin
         return $this->callAPI('', compact('name', 'email', 'phone', 'title', 'body', 'bcc'), "POST");
     }
 
-    public function index()
+    public function list()
     {
         $this->routes = '?';
 

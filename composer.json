@@ -1,0 +1,30 @@
+{
+    "name": "roketin/stellar-connect",
+    "description": "Roketin Stellar API Client",
+    "keywords": ["laravel", "api", "stellar", "client", "apiclient", "rest"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roketin.com",
+            "email": "roketinapp@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5.9 || ^7.0",
+        "illuminate/http": "5.1.* || 5.*",
+        "illuminate/support": "5.1.* || 5.*",
+        "guzzlehttp/guzzle": "~5.3|~6.0",
+        "intervention/image": "^2.3"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~4.0",
+        "symfony/var-dumper": "2.7.*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Roketin\\": "src/Roketin"
+        }
+    },
+    "minimum-stability": "stable"
+}

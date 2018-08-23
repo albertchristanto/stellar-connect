@@ -1,7 +1,7 @@
 # Roketin Client Template
-[![Latest Version](https://img.shields.io/github/release/roketin/connect.svg?style=flat-square)](https://github.com/roketin/connect/releases)
+[![Latest Version](https://img.shields.io/github/release/roketin/stellar-connect.svg?style=flat-square)](https://github.com/roketin/stellar-connect/releases)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/roketin/connect.svg?style=flat-square)](https://packagist.org/packages/roketin/connect)
+[![Total Downloads](https://img.shields.io/packagist/dt/roketin/stellar-connect.svg?style=flat-square)](https://packagist.org/packages/roketin/stellar-connect)
 
 RClient is standard client application to [Roketin API](http://www.roketin.com)  to accelerate connecting and integrating basic feature of Roketin Engine API to client's website.
 
@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/connect": "v0.0.9"
+    "roketin/stellar-connect": "v0.0.1"
 }
 ```
 

@@ -52,8 +52,8 @@ Next, run the Composer update command from the Terminal:
     APP_KEY=somestringrandom
     APP_URL=http://localhost
 
-    ROKETIN_API=http://r-gateway.roketin.com
-    ROKETIN_PUBLIC=http://r-gateway.roketin.com
+    ROKETIN_API=http://api.stellar.roketin.com
+    ROKETIN_PUBLIC=http://api.stellar.roketin.com
 
     ROKETIN_API_KEY=api_key
 

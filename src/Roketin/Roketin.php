@@ -80,16 +80,23 @@ class Roketin
     }
 
     /**
+     * @param $field
+     * @param $operator
+     * @param $value
      * @return mixed
      */
-    public function where($field, $operation, $value)
+    public function where($field, $operator = null, $value)
     {
-        $filter_or = array();
-        $temp      = [str_replace("-", " ", $field), $operation, $value];
-        array_push($filter_or, $temp);
-        $this->routes .= "filter[]=" . urldecode(json_encode($filter_or)) . '&';
+        $filter = [
+            "column"    => $field,
+            "value"     => $value
+        ];
 
-        return $this;
+        if (!is_null($operator)) {
+            $filter["operator"]  = $operator;
+        }
+
+        array_push($this->filters, $filter);
     }
 
     /**
@@ -100,15 +107,17 @@ class Roketin
      */
     public function orWhere($field, $operation, $value)
     {
-        $orWhere    = array();
-        $request    = Request::create($this->routes);
-        $filter     = $request->get('filter');
-        $lastFilter = json_decode(end($filter));
-        $temp       = [str_replace("-", " ", $field), $operation, $value];
-        array_push($lastFilter, $temp);
-        $this->routes = substr($this->routes, 0, strrpos($this->routes, "&filter[]=") + 10) . urldecode(json_encode($lastFilter));
+        $filter = [
+            "column"    => $field,
+            "value"     => $value,
+            "operand"   => 'or'
+        ];
 
-        return $this;
+        if (!is_null($operator)) {
+            $filter["operator"]  = $operator;
+        }
+
+        array_push($this->filters, $filter);
     }
 
     /**
@@ -141,30 +150,6 @@ class Roketin
     public function paginate($per_page = 10, $page = 1)
     {
         $this->routes .= "paginate=1&per_page=" . $per_page . "&page=" . $page . '&';
-
-        return $this;
-    }
-
-    /**
-     * @param $page
-     * @param $page
-     * @return mixed
-     */
-    public function filter($field = null, $operator = null, $value = null)
-    {
-        $filter = [
-            "column"    => $field,
-            "value"     => $value
-        ];
-
-        if (!is_null($operator)) {
-            $filter["operator"]  = $operator;
-        }
-
-        array_push($this->filters, $filter);
-
-        // TABLE
-        // $this->routes .= "filter=" . $value . '&';
 
         return $this;
     }

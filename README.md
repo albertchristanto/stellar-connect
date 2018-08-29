@@ -52,12 +52,10 @@ Next, run the Composer update command from the Terminal:
     APP_KEY=somestringrandom
     APP_URL=http://localhost
 
-    ROKETIN_API=http://dev.roketin.com/api/v2.2/
-    ROKETIN_PUBLIC=http://dev.roketin.com/
+    ROKETIN_API=http://api.stellar.roketin.com
+    ROKETIN_PUBLIC=http://api.stellar.roketin.com
 
-    ROKETIN_TOKEN=aBCd1234
-    ROKETIN_USERNAME=roketin
-    ROKETIN_RX=4241639264053293060625251241576152575759
+    ROKETIN_API_KEY=api_key
 
     VERITRANS_SERVER=494DKU0E71241K7BC15597DACA94D1F43
     VERITRANS_ENVIRONMENT=sandbox

@@ -97,6 +97,8 @@ class Roketin
         }
 
         array_push($this->filters, $filter);
+
+        return $this;
     }
 
     /**
@@ -118,6 +120,8 @@ class Roketin
         }
 
         array_push($this->filters, $filter);
+
+        return $this;
     }
 
     /**

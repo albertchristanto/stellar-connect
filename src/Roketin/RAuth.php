@@ -39,14 +39,27 @@ class RAuth extends Roketin
     }
 
     /**
-     * Register User.
+     * Forgot User.
      *
-     * @param $params
+     * @param $email
      * @return mixed
      */
     public function forgot($email)
     {   
         $this->endPoint = '/auth/api/forgot/password';
+
+        return $this->callAPI($this->routes, compact('email'), "POST");
+    }
+
+    /**
+     * Resend Activation User.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function resendActivation($email)
+    {   
+        $this->endPoint = '/activated/user';
 
         return $this->callAPI($this->routes, compact('email'), "POST");
     }

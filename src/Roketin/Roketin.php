@@ -242,7 +242,7 @@ class Roketin
 
     public function recapFilters()
     {
-        $this->routes .= "filters[]=" . json_encode($this->filters) . '&';
+        $this->routes .= "filters=" . json_encode($this->filters) . '&';
     }
 
     /**

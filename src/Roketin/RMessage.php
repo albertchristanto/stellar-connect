@@ -34,7 +34,7 @@ class RMessage extends Roketin
 
     public function table()
     {
-        $this->routes = '/table?';
+        $this->routes = '?';
 
         return $this;
     }

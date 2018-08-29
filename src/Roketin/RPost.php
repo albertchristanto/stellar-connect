@@ -13,7 +13,7 @@ class RPost extends Roketin
 
     public function list()
     {
-        $this->routes = '/table?';
+        $this->routes = '?';
 
         return $this;
     }

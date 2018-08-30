@@ -40,55 +40,38 @@ Next, run the Composer update command from the Terminal:
     'Roketin' => Roketin\Facades\RoketinFacade::class
   ```
 
-3. Publish the config using the following command:
-
-    $ php artisan vendor:publish --provider="Roketin\Providers\RoketinServiceProvider"
-
-4. Create an .env file based on .env.example file and change the value based on client credentials
+3. Please add to .env file
   
   ```
-    APP_ENV=local
-    APP_DEBUG=true
-    APP_KEY=somestringrandom
-    APP_URL=http://localhost
-
     ROKETIN_API=http://api.stellar.roketin.com
     ROKETIN_PUBLIC=http://api.stellar.roketin.com
 
     ROKETIN_API_KEY=api_key
-
-    VERITRANS_SERVER=494DKU0E71241K7BC15597DACA94D1F43
-    VERITRANS_ENVIRONMENT=sandbox
   ```
 
 ## HOW TO USE
 * [Basic Usage](#basic)
 * [Conditions](#conditions)
 * [Sorting](#sorting)
-* [Grouping](#grouping)
 * [Pagination](#pagination)
-* [Tags](#tags)
-* [Archives](#archives)
 * [Shipping](#shipping)
 * [Sales Order](#order)
-* [Subscribe](#subscribe)
 * [Message](#message)
-* [B2b](#join)
 * [Vouchers](#vouchers)
 * [Users](#users)
 * [Others](#others)
 
 ## Basic
 
-You can call a Roketin Object by using: **Roketin::model()->get()**
+You can call a Roketin Object by using: **Roketin::model()->module()->get()**
 
 ```php
     use Roketin;
     
-    $menus = Roketin::menus()->get();
-    $posts = Roketin::posts()->get();
-    $products = Roketin::products()->get();
-    $variants = Roketin::variants()->get();
+    $pages = Roketin::page()->list()->get();
+    $posts = Roketin::post()->list()->get();
+    $products = Roketin::product()->list()->get();
+    $variants = Roketin::variant()->list()->get();
     etc..
 ```
 
@@ -97,18 +80,16 @@ Fethcing single object with id/slug/etc:
 ```php
     /*
      * Same as fetching object, but in singular form (without 's')
-     * the second argument can be id or slug or etc ..
+     * the second argument can be id or slug
      * this is dynamic function call to Roketin Engine API
      */
     
-    $home = Roketin::menu('home')->get();
-    $post = Roketin::post('latest-update')->get();
+    $page = Roketin::page()->show('home')->get();
+    $post = Roketin::post()->show('lastest-update')->get();
 
 ```
 
 ## Conditions
-
-
 
 Fetching object with simple where conditions:
 
@@ -119,7 +100,7 @@ Fetching object with simple where conditions:
      * @param $value
      */
 
-    $posts = Roketin::posts()->where('title','like','vacation')->get();
+    $posts = Roketin::post()->list()->where('title','like','vacation')->get();
     
     //NOTE : 
     //It doesn't need to add % if using 'like' operator
@@ -135,7 +116,8 @@ Fetching object with simple orWhere conditions:
      * @param $value
      */
 
-    $posts = Roketin::posts()
+    $posts = Roketin::post()
+                        ->list()
                         ->where('title','like','vacation')
                         ->orWhere('title','like','holiday')
                         ->get();
@@ -154,7 +136,8 @@ Advance where orWhere grouping conditions:
      * @param $value
      */
 
-    $posts = Roketin::posts()
+    $posts = Roketin::post()
+                        ->list()
                         ->where('title','like','vacation')
                         ->orWhere('title','like','holiday')
                         ->where('date','>=','2016-04-10')
@@ -174,29 +157,15 @@ Advance where orWhere grouping conditions:
 Fetch a Roketin Object API by sorting on it's field:
 
 ```php
-    /*
+    /**
      * sorting object before fetch
      * 
      * @param $field
      * @param $direction (optional) default is ASC
-     * /
+     */
 
-    $posts = Roketin::posts()->sortBy('created_at')->get();
-    $posts = Roketin::posts()->sortBy('created_at','DESC')->get();
-```
-
-## Grouping
-
-Fetch a Roketin Object API by grouping on it's field:
-```php
-    /*
-     * grouping object before fetch
-     * 
-     * @param $field
-     * /
-
-    $posts = Roketin::posts()->groupBy('created_at')->get();
-    $posts = Roketin::posts()->groupBy('id')->groupBy('created_at')->get();
+    $posts = Roketin::post()->list()->sortBy('created_at')->get();
+    $posts = Roketin::post()->list()->sortBy('created_at','DESC')->get();
 ```
   
 ## Pagination
@@ -204,54 +173,27 @@ Fetch a Roketin Object API by grouping on it's field:
 Paginating fetch object
 
 ```php
-    /*
+    /**
      * paginate object before fetch
      * 
      * @param $size default value is 10
      * @param $page (optional)
-     * /
-
-    $posts = Roketin::posts()->paginate(10)->get();
-    $posts = Roketin::posts()->paginate(10,2)->get();
-```
-
-## Tags
-
-Get all tags post:
-```php
-    $tags = Roketin::tags()->get()
-```
-
-Get all posts by tag:
-```php
-    /*
-     * @param $tag separated by ';'
-     * @param $is_blog (optional) default value is false
      */
-    $posts = Roketin::tags('tag_1;tag_2',false)->get()
-```
 
-## Archives
-
-Get archives by year:
-```php
-    /*
-     * @param $tags (optional) default value is '', multiple (; as separator)
-     * @param $year (optional) default value is '2016'
-     */
-    $archive = Roketin::archives('tags;tags2;another tag','2016')->get()
+    $posts = Roketin::posts()->list()->paginate(10)->get();
+    $posts = Roketin::posts()->list()->paginate(10,2)->get();
 ```
 
 ## Shipping
 
 Get all available countries:
 ```php
-    $countries = Roketin::shipping()->countries()
+    $countries = Roketin::country()->list()->get();
 ```
 
 Get all available provinces (currently available in Indonesia only):
 ```php
-    $province = Roketin::shipping()->province()
+    $province = Roketin::province()->list('ID')->get();
 ```
 
 Get all available city (currently available in Indonesia only):
@@ -260,19 +202,7 @@ Get all available city (currently available in Indonesia only):
      * @param $provinceid
      */
 
-    $cities = Roketin::shipping()->province(9)->cities()
-```
-
-Calculate shipping costs:
-```php
-    /*
-     * @param $destination = city id
-     * @param $courier = JNE/TIKI/POS
-     * @param $weight = item weight in KG (optional) default value 1
-     * @param $origin = city id
-     */
-
-    $costs = Roketin::shipping()->costs(23, 'JNE')
+    $cities = Roketin::city()->list(9)->get();
 ```
 
 ## Order
@@ -285,29 +215,54 @@ Create sales order:
      * @param $bcc(optional), default = null
      */
      
-     $generalData = [
-            "notes"         => "some string here",
-            "is_email_only" => true, //default value false (for customer guest)
-            "ship_cost"     => 10000,
-            'ship_provider' => "JNE"
-     ];
-
-     $customerData = [
-            "first_name" => "Roketin",
-            "last_name"  => "User",
-            "phone"      => "+628123456789",
-            "email"      => "user@roketin.com",
-     ];
-
-     $products = [
-         [
-             "id"         => "2623",
-             "qty"        => "1",
-             "sku"        => "ADVHEL001",
-             "price_type" => "retail_price",
-         ],
-     ];                                 
-    $order = Roketin::order()->create($generalData, $customerData, $products, 'test@mailinator.com')
+     $order = [
+        "member_id"                 => "5b55af8c6f6bfc0c74007955",
+        "order_at"                  => "-09-09",
+        "is_create_invoice"         => true,
+         "due_date_invoice"         => "2009-09-09",
+         "message_from_customer"    => "pesan",
+         "name"                     => "adin",
+         "email"                    => "test@gmail.com",
+         "phone"                    => "123123123",
+         "address"                  => "Bandung",
+         "send_invoice"             => true,
+         "expedition_id"            => "8b7949f0-1266-4f00-9f34-2d6eb716c521",
+         "discounts"                => 10000,
+         "voucher_code"             => "voucher12009",
+         "tax"                      => 10,
+         "shipping_cost"            => 0,
+         "sender_id"                => "5b3309076f6bfc0460000b73",
+         "products"                 => [
+            {
+                "name"          => "Sepatu Merah",
+                "product_id"    => "5b6184386f6bfc3d18003eca",
+                "quantity"      => 1,
+                "price"         => 200000,
+                "discount"      => 0,
+                "add_cost"      => 0,
+                "weight"        => 100
+            },
+            {
+                "name"          => "Sendal Merah",
+                "product_id"    => "5b6184386f6bfc3d18003ecb",
+                "quantity"      => 1,
+                "price"         => 30000,
+                "discount"      => 0,
+                "add_cost"      => 0,
+                "weight"        => 100
+            },
+            {
+                "name"          => "Swallow",
+                "product_id"    => "5b6184386f6bfc3d18003ecc",
+                "quantity"      => 1,
+                "price"         => 50000,
+                "discount"      => 0,
+                "add_cost"      => 0,
+                "weight"        => 100
+            }
+          ]
+     ];                                
+    $order = Roketin::salesOrder()->store($order);
 ```
  
 > **Note:**
@@ -317,76 +272,25 @@ Create sales order:
 Confirm payment order:
 ```php
     /*
-     * @param $invoice_number
-     * @param $payment_type
-     * @param $total
-     * @param $customer_name
-     * @param $customer_bank
-     * @param $transaction_number
-     * @param Image $image
-     * @param $bank_account(optional), default = null
-     * @param $paid_date(optional), default = null
-     * @param $bcc(optional), default = null
+     * @param $payment
      */
-     
-    //you can create image for bank transfer that 
-    //showing transfer is success
-    //by using Image::make()
-    $img = Image::make(Input::file('image'))
+
+    $payment = [
+        "sales_invoice_id"      => "8b2ac9dc-85b1-49fe-b609-3e0539af2eb6",
+        "payment_type"          => "transfer",
+        "paid_at"               => "2009-09-09",
+        "nominal"               => 10000,
+        "company_bank_id"       => "8b29e54e-ba87-487a-9fc2-b8898d902074",
+        "bank_name"             => "adin",
+        "account_number"        => "0189320123",
+        "account_name"          => "adin",
+        "card_number"           => "01982301",
+        "credit_card_type"      => "credit",
+        "transaction_number"    => "T001092381",
+        "attachment"            => "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/180px-ReceiptSwiss.jpg"
+    ];
     
-    $payment = Roketin::order()
-                ->confirm('SI16041300058', 
-                          'TRANSFER', 
-                          '150000', 
-                          'Customer Roketin', 
-                          'Bank BCA', 
-                          'TRX-123', 
-                          $img, 
-                          '0853909090',
-                          '2016-04-10',
-                          'bcc@mailinator.com')
-```
----
-Void an Sales Order and it's invoice:
-```php
-    /*
-     * @param $invoice_number
-     */
-
-    $order = Roketin::order()->void('ASD02262016')
-```
-
-## Subscribe
-Submit a subscription email:
-```php
-    /*
-     * @param $email
-     * @param $bcc(optional), default = null
-     */
-
-    $subscribe = Roketin::subscribe('somebody@anythin.com', 'bcc@mailinator.com')
-```
-
-## Message
-Send a message to Roketin Engine Inbox:
-```php
-    /*
-     * @param $sender_name
-     * @param $sender_email
-     * @param $sender_phone
-     * @param $message_title
-     * @param $message_body
-     * @param $bcc(optional), default = null
-     */
-
-    $msg = Roketin::message()
-                    ->send(
-                    'test',
-                    'test@mailinator.com',
-                    '123123',
-                    'test mesage',
-                    'hai',
-                    'bcc@mailinator.com')
+    $payment = Roketin::payment()->store($payment);
 ```
 
 ## Message
@@ -425,22 +329,11 @@ Check validity of a voucher:
 
     $check = Roketin::voucher()->check('AS123D')
 ```
----
-invalidate a voucher (use voucher):
-```php
-    /*
-     * @param $voucher_code
-     * @param $voucher_type (optional) default is other
-     * @param $used_by (optional) default is logged in user
-     */
-
-    $check = Roketin::voucher()->invalidate('AS123D')
-```
    
 # Users
    Register new user:
 ```php
-    /*
+    /**
      * @param $first_name
      * @param $last_name
      * @param $email
@@ -451,61 +344,73 @@ invalidate a voucher (use voucher):
      * @return user object
      */
 
-    $user = Roketin::user()->register('first_name', 'last_name', 'email', 'phone', 'password', 'password_confirmation', 'bcc');
+    $user = [
+        "first_name"            => "adin",
+        "middle_name"           => "",
+        "last_name"             => "",
+        "nickname"              => "adin",
+        "gender"                => "male",
+        "phone_number"          => "0819238129",
+        "place_of_birth"        => "Bandung",
+        "date_of_birth"         => "1998-07-18",
+        "join_date"             => "2018-08-06",
+        "is_activated"          => true,
+        "email"                 => "test@gmail.com",
+        "password"              => "secret",
+        "password_confirmation" => "secret",
+        "role_ids"              => ["5b6a86686f6bfc1a4400736e"]
+    ];
+
+    $user = Roketin::user()->register($user);
 ```
 
-User activation:
+Update user data:
 ```php
-    /*
-     * @param $token
-     * @return true if success activation
-     * @return error object if present
+    /**
+     * @param $id
+     * @return user object
      */
 
-    $activation = Roketin::user()->activate('token');
+    $user = [
+        "first_name"        => "adin",
+        "middle_name"       => "",
+        "last_name"         => "",
+        "nickname"          => "adin",
+        "gender"            => "male",
+        "place_of_birth"    => "Bandung",
+        "date_of_birth"     => "18 Jul 2018",
+        "role_ids"          => ["5b6945056f6bfc42cc003479"]
+    ];
+
+    Roketin::user()->update('5b6863e16f6bfc32ec003d1d', $user);
 ```
 
 Resend activation code to email:
 ```php
-    /*
+    /**
      * @param $email
      * @return true if success activation
      * @return error object if present
      */
 
-    $resend = Roketin::user()->resendActivation('someone@somthing.com');
+    $resend = Roketin::auth()->resendActivation('someone@somthing.com');
 ```
 
 Forgot password (generate and send token to user email):
 ```php
-    /*
+    /**
      * @param $email
      * @param $bcc(optional), default = null
      * @return true if success activation
      * @return error object if present
      */
 
-    Roketin::user()->forgot('someone@somthing.com', 'bcc@mailinator.com');
-```
-
-
-Reset password:
-```php
-    /*
-     * @param $token
-     * @param $password
-     * @param $password_confirmation
-     * @param $bcc(optional), default = null
-     * @return true if success activation
-     * @return error object if present
-     */
-
-    Roketin::user()->resetPassword('token','asdf','asdf', 'bcc@mailinator.com');
+    Roketin::auth()->forgot('someone@somthing.com', 'bcc@mailinator.com');
 ```
 
 Login:
 ```php
-    /*
+    /**
      * @param $email
      * @param $password
      * @param $type (optional) default = user, available = vendor
@@ -516,40 +421,12 @@ Login:
     Roketin::auth()->login('somebody@somthing.com','asdf');
 ```
 
-Current User:
-```php
-    /*
-     * @return user object
-     */
-
-    Roketin::auth()->user();
-```
-
-Update user data:
-```php
-    /*
-     * @return user object
-     */
-
-    Roketin::user()->update(['first_name' => 'John']);
-```
-> **Note:**
-> - For detailed attribute, see sales order API documentation [HERE](http://docs.rengine.apiary.io/#reference/users/update)
-
-Get transaction history data:
-```php
-    /*
-     * @return user object
-     */
-
-    Roketin::user()->transactionHistory()->get();
-```
 > **Note:**
 > - you can also use where(), orWhere(), etc query with this method
 
 Logout:
 ```php
-    /*
+    /**
      * @return boolean
      */
 
@@ -560,10 +437,14 @@ Logout:
 
 Get Product Variants By Category:
 ```php
-    /*
+    /**
      * @param $category_name
      * @return variants object
      */
 
-    Roketin::variantsByCategory($category_name)->get();
+    Roketin::product()->list()->category('1')->get();
+
+    or
+
+    Roketin::product()->list()->category(['1'])->get();
 ```

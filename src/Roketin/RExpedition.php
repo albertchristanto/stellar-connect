@@ -8,7 +8,7 @@ class RExpedition extends Roketin
     {
         parent::__construct();
 
-        $this->endPoint = '/order/api/v1/expeditions';
+        $this->endPoint = '/order/api/v1/company-expeditions';
         
     }
 

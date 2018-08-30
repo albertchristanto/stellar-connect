@@ -51,14 +51,17 @@ Next, run the Composer update command from the Terminal:
 
 ## HOW TO USE
 * [Basic Usage](#basic)
+* [Show](#show)
 * [Conditions](#conditions)
 * [Sorting](#sorting)
 * [Pagination](#pagination)
 * [Shipping](#shipping)
+* [Expedition](#expedition)
 * [Sales Order](#order)
 * [Message](#message)
 * [Vouchers](#vouchers)
-* [Users](#users)
+* [Auth](#auth)
+* [User](#user)
 * [Others](#others)
 
 ## Basic
@@ -87,6 +90,19 @@ Fethcing single object with id/slug/etc:
     $page = Roketin::page()->show('home')->get();
     $post = Roketin::post()->show('lastest-update')->get();
 
+```
+
+## Basic
+
+If you want get the details
+
+```php
+    /**
+     * @param $id
+     */
+
+    $products = Roketin::product()->show($id)->get();
+    etc..
 ```
 
 ## Conditions
@@ -193,16 +209,44 @@ Get all available countries:
 
 Get all available provinces (currently available in Indonesia only):
 ```php
+    /**
+     * @param $country_id
+     */
     $province = Roketin::province()->list('ID')->get();
 ```
 
 Get all available city (currently available in Indonesia only):
 ```php
-    /*
-     * @param $provinceid
+    /**
+     * @param $province_id
      */
 
     $cities = Roketin::city()->list(9)->get();
+```
+
+Get all available district (currently available in Indonesia only):
+```php
+    /**
+     * @param $city_id
+     */
+
+    $districts = Roketin::district()->list(9)->get();
+```
+
+Get all available subdistrict (currently available in Indonesia only):
+```php
+    /**
+ * @param $district_id
+     */
+
+    $subDistricts = Roketin::subDistrict()->list(9)->get();
+```
+
+## Expedition
+
+Get all available Expedition:
+```php
+    $expeditions = Roketin::expedition()->list()->get();
 ```
 
 ## Order
@@ -264,14 +308,23 @@ Create sales order:
      ];                                
     $order = Roketin::salesOrder()->store($order);
 ```
+
+Search sales order:
+```php
+    /**
+     * @param $query
+     */
+                                 
+    $order = Roketin::salesOrder()->search($query)->get()
+```
  
 > **Note:**
 > - For detailed attribute, see sales order API documentation [HERE](http://docs.rengine.apiary.io/#reference/sales-order/sales-order)
 
 ----
-Confirm payment order:
+Create payment order:
 ```php
-    /*
+    /**
      * @param $payment
      */
 
@@ -291,6 +344,16 @@ Confirm payment order:
     ];
     
     $payment = Roketin::payment()->store($payment);
+```
+
+----
+Confirm payment order:
+```php
+    /**
+     * @param $payment_id
+     */
+    
+    $payment = Roketin::payment()->confirm($payment_id);
 ```
 
 ## Message
@@ -328,6 +391,43 @@ Check validity of a voucher:
      */
 
     $check = Roketin::voucher()->check('AS123D')
+```
+
+# Auth
+Resend activation code to email:
+```php
+    /**
+     * @param $email
+     * @return true if success activation
+     * @return error object if present
+     */
+
+    $resend = Roketin::auth()->resendActivation('someone@somthing.com');
+```
+
+Forgot password (generate and send token to user email):
+```php
+    /**
+     * @param $email
+     * @param $bcc(optional), default = null
+     * @return true if success activation
+     * @return error object if present
+     */
+
+    Roketin::auth()->forgot('someone@somthing.com', 'bcc@mailinator.com');
+```
+
+Login:
+```php
+    /**
+     * @param $email
+     * @param $password
+     * @param $type (optional) default = user, available = vendor
+     * @return true if success activation
+     * @return error object if present
+     */
+
+    Roketin::auth()->login('somebody@somthing.com','asdf');
 ```
    
 # Users
@@ -385,53 +485,8 @@ Update user data:
     Roketin::user()->update('5b6863e16f6bfc32ec003d1d', $user);
 ```
 
-Resend activation code to email:
-```php
-    /**
-     * @param $email
-     * @return true if success activation
-     * @return error object if present
-     */
-
-    $resend = Roketin::auth()->resendActivation('someone@somthing.com');
-```
-
-Forgot password (generate and send token to user email):
-```php
-    /**
-     * @param $email
-     * @param $bcc(optional), default = null
-     * @return true if success activation
-     * @return error object if present
-     */
-
-    Roketin::auth()->forgot('someone@somthing.com', 'bcc@mailinator.com');
-```
-
-Login:
-```php
-    /**
-     * @param $email
-     * @param $password
-     * @param $type (optional) default = user, available = vendor
-     * @return true if success activation
-     * @return error object if present
-     */
-
-    Roketin::auth()->login('somebody@somthing.com','asdf');
-```
-
 > **Note:**
 > - you can also use where(), orWhere(), etc query with this method
-
-Logout:
-```php
-    /**
-     * @return boolean
-     */
-
-    Roketin::auth()->logout();
-```
 
 ## Others
 

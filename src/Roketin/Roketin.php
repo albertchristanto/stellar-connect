@@ -290,6 +290,11 @@ class Roketin
         return new RAuth();
     }
 
+    public function user()
+    {
+        return new RUser();
+    }
+
     public function b2b()
     {
         return new RB2b();

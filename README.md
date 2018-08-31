@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.0.1"
+    "roketin/stellar-connect": "v0.0.2"
 }
 ```
 
@@ -26,7 +26,7 @@ Next, run the Composer update command from the Terminal:
 
     or
 
-    composer update "roketin/stellar-connect"
+    composer require "roketin/stellar-connect"
 
 ## CONFIGURATION
 1. Open config/app.php and addd this line to your Service Providers Array

@@ -222,9 +222,11 @@ class Roketin
     /**
      * @return mixed
      */
-    public function tags($tag = null, $blog = false)
+    public function tags($tag = null)
     {
-        $this->routes = is_null($tag) ? "tags" : "posts/tag?tags=" . $tag . "&is_blog=" . ($blog ?: 'false');
+        $tag = json_encode($tag);
+
+        $this->routes .= 'tag=' . $tag . '&';
 
         return $this;
     }
@@ -248,7 +250,7 @@ class Roketin
         return $this;
     }
 
-    public function category($category_id)
+    public function categories($category_id)
     {
         $category_id = json_encode($category_id);
 
@@ -353,6 +355,11 @@ class Roketin
     public function variant()
     {
         return new RVariant();
+    }
+
+    public function category()
+    {
+        return new RCategory;
     }
 
     /**

@@ -75,6 +75,7 @@ You can call a Roketin Object by using: **Roketin::model()->module()->get()**
     $posts = Roketin::post()->list()->get();
     $products = Roketin::product()->list()->get();
     $variants = Roketin::variant()->list()->get();
+    $categories = Roketin::category()->list()->get();
     etc..
 ```
 
@@ -497,9 +498,23 @@ Get Product Variants By Category:
      * @return variants object
      */
 
-    Roketin::product()->list()->category('1')->get();
+    Roketin::product()->list()->categories('baju')->get();
 
     or
 
-    Roketin::product()->list()->category(['1'])->get();
+    Roketin::product()->list()->categories(['baju'])->get();
+```
+
+Get Product Variants By Tag:
+```php
+    /**
+     * @param $category_name
+     * @return variants object
+     */
+
+    Roketin::product()->list()->tags('baju')->get();
+
+    or
+
+    Roketin::product()->list()->tags(['baju'])->get();
 ```

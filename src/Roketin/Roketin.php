@@ -250,11 +250,11 @@ class Roketin
         return $this;
     }
 
-    public function categories($category_id)
+    public function categories($category)
     {
-        $category_id = json_encode($category_id);
+        $category = json_encode($category);
 
-        $this->routes .= 'category_id=' . $category_id . '&';
+        $this->routes .= 'category=' . $category . '&';
 
         return $this;
     }

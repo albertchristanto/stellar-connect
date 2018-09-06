@@ -129,7 +129,7 @@ class Roketin
      * @param $direction
      * @return mixed
      */
-    public function sortBy($field, $direction = "ASC")
+    public function sortBy($field, $direction = "ASC", $relation = null)
     {
         // INDEX
         $sorts = [
@@ -137,11 +137,11 @@ class Roketin
             "by"        => (strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC')
         ];
 
+        if (!is_null($relation)) {
+            $sorts['relation'] = $relation;
+        }
+
         $this->routes .= "sorts[]=" . json_encode($sorts) . '&';
-
-
-        // TABLE
-        // $this->routes .= "sort=" . $field.'|'.(strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC') . '&';
 
         return $this;
     }

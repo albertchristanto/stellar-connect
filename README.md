@@ -518,3 +518,13 @@ Get Product Variants By Tag:
 
     Roketin::product()->list()->tags(['baju'])->get();
 ```
+
+Get Product Sort By Relation:
+```php
+    /**
+     * @param $category_name
+     * @return variants object
+     */
+
+    Roketin::product()->list()->sortBy('price', 'ASC', 'variants')->get();
+```

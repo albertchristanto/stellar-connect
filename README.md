@@ -344,17 +344,7 @@ Create payment order:
         "attachment"            => "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/180px-ReceiptSwiss.jpg"
     ];
     
-    $payment = Roketin::payment()->store($payment);
-```
-
-----
-Confirm payment order:
-```php
-    /**
-     * @param $payment_id
-     */
-    
-    $payment = Roketin::payment()->confirm($payment_id);
+    $payment = Roketin::payment()->confirm($payment);
 ```
 
 ## Message

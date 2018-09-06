@@ -14,7 +14,11 @@ class RSubDistrict extends Roketin
 
     public function list($district_code)
     {
-        $this->routes = '?district_code='.$district_code.'&';
+        $this->routes = '?';
+
+        if (!is_null($district_code)) {
+            $this->routes = 'district_code='.$district_code.'&';
+        }
 
         return $this;
     }

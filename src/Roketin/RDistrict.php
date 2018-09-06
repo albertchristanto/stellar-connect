@@ -12,9 +12,13 @@ class RDistrict extends Roketin
         
     }
 
-    public function list($city_code)
+    public function list($city_code = null)
     {
-        $this->routes = '?city_code='.$city_code.'&';
+        $this->routes = '?';
+
+        if (!is_null($city_code)) {
+            $this->routes = 'city_code='.$city_code.'&';
+        }
 
         return $this;
     }

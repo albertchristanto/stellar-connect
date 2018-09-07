@@ -12,9 +12,13 @@ class RCIty extends Roketin
         
     }
 
-    public function list($province_code)
+    public function list($province_code = null)
     {
-        $this->routes = '?province_code='.$province_code.'&';
+        $this->routes = '?';
+
+        if (!is_null($province_code)) {
+            $this->routes = 'province_code='.$province_code.'&';
+        }
 
         return $this;
     }

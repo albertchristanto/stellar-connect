@@ -129,7 +129,7 @@ class Roketin
      * @param $direction
      * @return mixed
      */
-    public function sortBy($field, $direction = "ASC")
+    public function sortBy($field, $direction = "ASC", $relation = null)
     {
         // INDEX
         $sorts = [
@@ -137,11 +137,11 @@ class Roketin
             "by"        => (strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC')
         ];
 
+        if (!is_null($relation)) {
+            $sorts['relation'] = $relation;
+        }
+
         $this->routes .= "sorts[]=" . json_encode($sorts) . '&';
-
-
-        // TABLE
-        // $this->routes .= "sort=" . $field.'|'.(strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC') . '&';
 
         return $this;
     }
@@ -222,9 +222,11 @@ class Roketin
     /**
      * @return mixed
      */
-    public function tags($tag = null, $blog = false)
+    public function tags($tag = null)
     {
-        $this->routes = is_null($tag) ? "tags" : "posts/tag?tags=" . $tag . "&is_blog=" . ($blog ?: 'false');
+        $tag = json_encode($tag);
+
+        $this->routes .= 'tag=' . $tag . '&';
 
         return $this;
     }
@@ -248,11 +250,11 @@ class Roketin
         return $this;
     }
 
-    public function category($category_id)
+    public function categories($category)
     {
-        $category_id = json_encode($category_id);
+        $category = json_encode($category);
 
-        $this->routes .= 'category_id=' . $category_id . '&';
+        $this->routes .= 'category=' . $category . '&';
 
         return $this;
     }
@@ -353,6 +355,11 @@ class Roketin
     public function variant()
     {
         return new RVariant();
+    }
+
+    public function category()
+    {
+        return new RCategory;
     }
 
     /**

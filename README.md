@@ -43,8 +43,8 @@ Next, run the Composer update command from the Terminal:
 3. Please add to .env file
   
   ```
-    ROKETIN_API=http://api.stellar.roketin.com
-    ROKETIN_PUBLIC=http://api.stellar.roketin.com
+    ROKETIN_API=https://api.stellar.roketin.com
+    ROKETIN_PUBLIC=https://api.stellar.roketin.com
 
     ROKETIN_API_KEY=api_key
   ```
@@ -404,8 +404,8 @@ Check validity of a voucher:
      * default is voucher_type is other
      */
     $data = [
-        'code'      => 'AS123D',
-        'nominal'   => 10000
+        'code'           => 'AS123D',
+        'total_purchase' => 10000
     ];
 
     $check = Roketin::voucher()->check($data)

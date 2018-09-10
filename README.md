@@ -250,6 +250,18 @@ Get all available Expedition:
     $expeditions = Roketin::expedition()->list()->get();
 ```
 
+Get Delivery Cost:
+```php
+    $delivery = [
+        'origin'        => '501',
+        'destination'   => '574',
+        'weight'        => 1700,
+        'courier'       => 'jne'
+    ];
+    
+    $expeditions = Roketin::expedition()->cost($delivery);
+```
+
 ## Order
 Create sales order:
 ```php
@@ -381,7 +393,7 @@ Check validity of a voucher:
      * default is voucher_type is other
      */
 
-    $check = Roketin::voucher()->check('AS123D')
+    $check = Roketin::voucher()->check(['AS123D', 100000])
 ```
 
 # Auth

@@ -25,4 +25,11 @@ class RExpedition extends Roketin
 
         return $this;
     }
+
+    public function cost($params)
+    {
+        $this->routes = 'cost?';
+
+        return $this->callAPI($this->routes, $params, "POST");
+    }
 }

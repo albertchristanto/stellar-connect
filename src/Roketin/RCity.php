@@ -17,7 +17,7 @@ class RCIty extends Roketin
         $this->routes = '?';
 
         if (!is_null($province_code)) {
-            $this->routes = 'province_code='.$province_code.'&';
+            $this->routes = '?province_code='.$province_code.'&';
         }
 
         return $this;

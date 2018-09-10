@@ -17,7 +17,7 @@ class RProvince extends Roketin
         $this->routes = '?';
 
         if (!is_null($country_code)) {
-            $this->routes = 'country_code='.$country_code.'&';
+            $this->routes = '?country_code='.$country_code.'&';
         }
 
         return $this;

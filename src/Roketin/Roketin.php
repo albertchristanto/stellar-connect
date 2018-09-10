@@ -211,15 +211,6 @@ class Roketin
     }
 
     /**
-     * @param $email
-     * @return mixed
-     */
-    public function subscribe($email, $bcc = null)
-    {
-        return $this->callAPI("subscribe", ["email" => $email, "bcc" => $bcc], "POST");
-    }
-
-    /**
      * @return mixed
      */
     public function tags($tag = null)
@@ -360,6 +351,11 @@ class Roketin
     public function category()
     {
         return new RCategory;
+    }
+
+    public function subscribe()
+    {
+        return new RSubscribe;
     }
 
     /**

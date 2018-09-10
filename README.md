@@ -59,6 +59,7 @@ Next, run the Composer update command from the Terminal:
 * [Expedition](#expedition)
 * [Sales Order](#order)
 * [Message](#message)
+* [Subscribe](#subscribe)
 * [Vouchers](#vouchers)
 * [Auth](#auth)
 * [User](#user)
@@ -369,6 +370,16 @@ Send a message to Roketin Engine Inbox:
                     'bcc@mailinator.com')
 ```
 
+## Subscribe
+Send a Subscribe to Roketin Engine Subscribe:
+```php
+    /*
+     * @param $email
+     */
+
+    $msg = Roketin::subscribe()->send('test@mailinator.com')
+```
+
 ## Vouchers
 Check validity of a voucher:
 ```php
@@ -380,8 +391,12 @@ Check validity of a voucher:
      * other (voucher to exchange to free product)
      * default is voucher_type is other
      */
+    $data = [
+        'code'      => 'AS123D',
+        'nominal'   => 10000
+    ];
 
-    $check = Roketin::voucher()->check('AS123D')
+    $check = Roketin::voucher()->check($data)
 ```
 
 # Auth

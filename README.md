@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.0.1"
+    "roketin/stellar-connect": "v0.0.3"
 }
 ```
 
@@ -26,7 +26,7 @@ Next, run the Composer update command from the Terminal:
 
     or
 
-    composer update "roketin/stellar-connect"
+    composer require "roketin/stellar-connect"
 
 ## CONFIGURATION
 1. Open config/app.php and addd this line to your Service Providers Array
@@ -59,6 +59,7 @@ Next, run the Composer update command from the Terminal:
 * [Expedition](#expedition)
 * [Sales Order](#order)
 * [Message](#message)
+* [Subscribe](#subscribe)
 * [Vouchers](#vouchers)
 * [Auth](#auth)
 * [User](#user)
@@ -381,6 +382,16 @@ Send a message to Roketin Engine Inbox:
                     'bcc@mailinator.com')
 ```
 
+## Subscribe
+Send a Subscribe to Roketin Engine Subscribe:
+```php
+    /*
+     * @param $email
+     */
+
+    $msg = Roketin::subscribe()->send('test@mailinator.com')
+```
+
 ## Vouchers
 Check validity of a voucher:
 ```php
@@ -392,8 +403,12 @@ Check validity of a voucher:
      * other (voucher to exchange to free product)
      * default is voucher_type is other
      */
+    $data = [
+        'code'      => 'AS123D',
+        'nominal'   => 10000
+    ];
 
-    $check = Roketin::voucher()->check(['AS123D', 100000])
+    $check = Roketin::voucher()->check($data)
 ```
 
 # Auth

@@ -17,7 +17,7 @@ class RDistrict extends Roketin
         $this->routes = '?';
 
         if (!is_null($city_code)) {
-            $this->routes = 'city_code='.$city_code.'&';
+            $this->routes = '?city_code='.$city_code.'&';
         }
 
         return $this;

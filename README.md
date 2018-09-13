@@ -275,7 +275,7 @@ Create sales order:
      
      $order = [
         "member_id"                 => "5b55af8c6f6bfc0c74007955",
-        "order_at"                  => "-09-09",
+        "order_at"                  => "2009-09-09",
         "is_create_invoice"         => true,
          "due_date_invoice"         => "2009-09-09",
          "message_from_customer"    => "pesan",
@@ -284,7 +284,8 @@ Create sales order:
          "phone"                    => "123123123",
          "address"                  => "Bandung",
          "send_invoice"             => true,
-         "expedition_id"            => "8b7949f0-1266-4f00-9f34-2d6eb716c521",
+         "expedition_code"          => "jne",
+         "service_code"             => "oke",
          "discounts"                => 10000,
          "voucher_code"             => "voucher12009",
          "tax"                      => 10,

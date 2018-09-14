@@ -107,7 +107,7 @@ class Roketin
      * @param $value
      * @return mixed
      */
-    public function orWhere($field, $operation, $value)
+    public function orWhere($field, $operator, $value)
     {
         $filter = [
             "column"    => $field,

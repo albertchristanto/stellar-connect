@@ -13,7 +13,7 @@ class RCategory extends Roketin
 
     public function list()
     {
-        $this->routes = '?';
+        $this->routes = '?parent=null&';
 
         return $this;
     }

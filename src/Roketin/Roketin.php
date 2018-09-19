@@ -293,6 +293,11 @@ class Roketin
         return new RB2b();
     }
 
+    public function menu()
+    {
+        return new RMenu();
+    }
+
     public function page()
     {
         return new RPage();

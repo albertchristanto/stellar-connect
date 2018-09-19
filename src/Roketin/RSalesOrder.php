@@ -58,6 +58,8 @@ class RSalesOrder extends Roketin
      */
     public function store($params)
     {
+        $this->routes = '/ecommerce?';
+
         return $this->callAPI($this->routes, $params, "POST");
     }
 }

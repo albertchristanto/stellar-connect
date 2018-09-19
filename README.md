@@ -72,6 +72,7 @@ You can call a Roketin Object by using: **Roketin::model()->module()->get()**
 ```php
     use Roketin;
     
+    $menus = Roketin::menu()->list()->get();
     $pages = Roketin::page()->list()->get();
     $posts = Roketin::post()->list()->get();
     $products = Roketin::product()->list()->get();
@@ -89,6 +90,7 @@ Fethcing single object with id/slug/etc:
      * this is dynamic function call to Roketin Engine API
      */
     
+    $menu = Roketin::menu()->show('asc-123123-asxzc')->get();
     $page = Roketin::page()->show('home')->get();
     $post = Roketin::post()->show('lastest-update')->get();
 

@@ -2,13 +2,13 @@
 
 namespace Roketin;
 
-class RCategory extends Roketin
+class RMenu extends Roketin
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->endPoint = '/product/api/v1/category';
+        $this->endPoint = '/website/api/v1/menus';
     }
 
     public function list($parent_id = null)
@@ -24,7 +24,7 @@ class RCategory extends Roketin
 
     public function show($id = null)
     {
-        $this->routes = '/'.$id.'/show?';
+        $this->routes = '/'.$id.'?';
 
         return $this;
     }

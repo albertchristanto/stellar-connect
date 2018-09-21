@@ -286,6 +286,7 @@ Create sales order:
          "phone"                    => "123123123",
          "address"                  => "Bandung",
          "send_invoice"             => true,
+         "shipping"                 => true,
          "expedition_code"          => "jne",
          "service_code"             => "oke",
          "discounts"                => 10000,

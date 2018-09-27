@@ -363,6 +363,11 @@ class Roketin
         return new RSubscribe;
     }
 
+    public function bank()
+    {
+        return new RBank;
+    }
+
     /**
      * @return mixed
      */

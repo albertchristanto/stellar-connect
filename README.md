@@ -57,6 +57,7 @@ Next, run the Composer update command from the Terminal:
 * [Pagination](#pagination)
 * [Shipping](#shipping)
 * [Expedition](#expedition)
+* [Bank](#bank)
 * [Sales Order](#order)
 * [Message](#message)
 * [Subscribe](#subscribe)
@@ -263,6 +264,13 @@ Get Delivery Cost:
     ];
     
     $expeditions = Roketin::expedition()->cost($delivery);
+```
+
+## Bank
+
+Get all available Bank:
+```php
+    $expeditions = Roketin::bank()->list()->get();
 ```
 
 ## Order

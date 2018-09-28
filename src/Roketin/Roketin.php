@@ -368,6 +368,11 @@ class Roketin
         return new RBank;
     }
 
+    public function categoryPost()
+    {
+        return new RCategoryPost;
+    }
+
     /**
      * @return mixed
      */

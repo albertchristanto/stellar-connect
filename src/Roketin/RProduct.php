@@ -13,7 +13,7 @@ class RProduct extends Roketin
 
     public function list()
     {
-        $this->routes = '?';
+        $this->routes = '?type=active&';
 
         return $this;
     }

@@ -373,6 +373,16 @@ class Roketin
         return new RCategoryPost;
     }
 
+    public function socialMedia()
+    {
+        return new RSocialMedia;
+    }
+
+    public function company()
+    {
+        return new RCompany;
+    }
+
     /**
      * @return mixed
      */

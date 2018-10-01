@@ -56,6 +56,8 @@ Next, run the Composer update command from the Terminal:
 * [Sorting](#sorting)
 * [Pagination](#pagination)
 * [Shipping](#shipping)
+* [Social Media](#social_media)
+* [Company Detail](#company_detail)
 * [Page and Post](#page)
 * [Expedition](#expedition)
 * [Bank](#bank)
@@ -247,6 +249,22 @@ Get all available subdistrict (currently available in Indonesia only):
 
     $subDistricts = Roketin::subDistrict()->list(9)->get();
 ```
+
+## Social Media
+
+Get all available Social Media:
+```php
+    $medias = Roketin::socialMedia()->list()->get();
+```
+
+## Company Detail
+
+Get all available countries:
+```php
+    $company = Roketin::company()->detail()->get();
+```
+
+
 ## Page and Post
 
 Get all Menu:

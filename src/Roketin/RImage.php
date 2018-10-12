@@ -8,21 +8,23 @@ class RImage extends Roketin
     {
         parent::__construct();
 
-        $this->endPoint = '/order/api/v1/expeditions';
+        $this->endPoint = '/document/api/v1/documents/temporaryImageUpload';
         
     }
 
-    public function list()
+    public function send($image)
     {
-        $this->routes = '?';
+        $pathFile = $image->getPathname();
+        $mime     = $image->getmimeType();
+        $org      = $image->getClientOriginalName();
 
-        return $this;
-    }
+        $multipart = [
+            'name'     => 'attachment[]',
+            'filename' => $org,
+            'Mime-Type'=> $mime,
+            'contents' => fopen( $pathFile, 'r' )
+        ];
 
-    public function show($id)
-    {
-        $this->routes = '/'.$id.'?';
-
-        return $this;
+        return $this->callAPI('', [$multipart], "POST", true);
     }
 }

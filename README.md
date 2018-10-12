@@ -394,6 +394,8 @@ Create payment order:
      * @param $payment
      */
 
+    $image = Roketin::image()->send($request->file('image'));
+
     $payment = [
         "sales_invoice_id"      => "8b2ac9dc-85b1-49fe-b609-3e0539af2eb6",
         "payment_type"          => "transfer",
@@ -406,7 +408,7 @@ Create payment order:
         "card_number"           => "01982301",
         "credit_card_type"      => "credit",
         "transaction_number"    => "T001092381",
-        "attachment"            => "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/ReceiptSwiss.jpg/180px-ReceiptSwiss.jpg"
+        "attachment"            => $image
     ];
     
     $payment = Roketin::payment()->confirm($payment);

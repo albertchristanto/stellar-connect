@@ -402,17 +402,26 @@ class Roketin
      * @param $extraParam
      * @param null $method
      */
-    protected function callAPI($route, $extraParam = null, $method = "GET")
+    protected function callAPI($route, $extraParam = null, $method = "GET", $is_file = false)
     {
         try {
-            $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [
-                'body'    => json_encode($extraParam),
-                'headers' => [
-                    "api-key"           => Config::get('roketin.api-key'),
-                    "Content-Type"      => "application/vnd.api+json",
-                    "Content-Length"    => 0,
-                ],
-            ]);
+            if (!$is_file) {
+                $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [
+                    'body'    => json_encode($extraParam),
+                    'headers' => [
+                        "api-key"           => Config::get('roketin.api-key'),
+                        "Content-Type"      => "application/vnd.api+json",
+                        "Content-Length"    => 0,
+                    ],
+                ]);
+            } else {
+                $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [
+                    'multipart' => $extraParam,
+                    'headers' => [
+                        "api-key"           => Config::get('roketin.api-key')
+                    ],
+                ]);
+            }
             return json_decode($response->getBody()->getContents());
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             if (is_null($e->getResponse())) {

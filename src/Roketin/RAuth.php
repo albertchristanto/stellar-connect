@@ -8,7 +8,7 @@ class RAuth extends Roketin
     {
         parent::__construct();
 
-        $this->endPoint = '/auth/api/v2/auth';
+        $this->endPoint = '/relation/api/v1/auth';
         
     }
 
@@ -34,6 +34,10 @@ class RAuth extends Roketin
     public function register($params)
     {   
         $this->routes = '/register';
+
+        if (is_array($params)) {
+            $params['membership_type'] = 'Customer';
+        }
 
         return $this->callAPI($this->routes, $params, "POST");
     }

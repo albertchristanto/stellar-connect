@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.0.7"
+    "roketin/stellar-connect": "v0.0.8"
 }
 ```
 
@@ -497,7 +497,12 @@ Login:
      * @return error object if present
      */
 
-    Roketin::auth()->login('somebody@somthing.com','asdf');
+    $user = [
+        'email'     => 'somebody@somthing.com',
+        'password'  => 'secret123'
+    ];
+
+    Roketin::auth()->login($user);
 ```
    
 # Users
@@ -507,28 +512,17 @@ Login:
      * @param $first_name
      * @param $last_name
      * @param $email
-     * @param $phone
      * @param $password
      * @param $password_confirmation
-     * @param $bcc(optional), default = null
      * @return user object
      */
 
     $user = [
         "first_name"            => "adin",
-        "middle_name"           => "",
         "last_name"             => "",
-        "nickname"              => "adin",
-        "gender"                => "male",
-        "phone_number"          => "0819238129",
-        "place_of_birth"        => "Bandung",
-        "date_of_birth"         => "1998-07-18",
-        "join_date"             => "2018-08-06",
-        "is_activated"          => true,
         "email"                 => "test@gmail.com",
-        "password"              => "secret",
-        "password_confirmation" => "secret",
-        "role_ids"              => ["5b6a86686f6bfc1a4400736e"]
+        "password"              => "secret123",
+        "password_confirmation" => "secret123"
     ];
 
     $user = Roketin::user()->register($user);

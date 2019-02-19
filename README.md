@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.1.0"
+    "roketin/stellar-connect": "v0.0.11"
 }
 ```
 
@@ -41,7 +41,7 @@ Next, run the Composer update command from the Terminal:
   ```
 
 3. Please add to .env file
-  
+
   ```
     ROKETIN_API=https://api.stellar.roketin.com
     ROKETIN_PUBLIC=https://api.stellar.roketin.com
@@ -75,7 +75,7 @@ You can call a Roketin Object by using: **Roketin::model()->module()->get()**
 
 ```php
     use Roketin;
-    
+
     $menus = Roketin::menu()->list()->get();
     $pages = Roketin::page()->list()->get();
     $posts = Roketin::post()->list()->get();
@@ -93,7 +93,7 @@ Fethcing single object with id/slug/etc:
      * the second argument can be id or slug
      * this is dynamic function call to Roketin Engine API
      */
-    
+
     $menu = Roketin::menu()->show('asc-123123-asxzc')->get();
     $page = Roketin::page()->show('home')->get();
     $post = Roketin::post()->show('lastest-update')->get();
@@ -125,8 +125,8 @@ Fetching object with simple where conditions:
      */
 
     $posts = Roketin::post()->list()->where('title','like','vacation')->get();
-    
-    //NOTE : 
+
+    //NOTE :
     //It doesn't need to add % if using 'like' operator
 
 ```
@@ -145,8 +145,8 @@ Fetching object with simple orWhere conditions:
                         ->where('title','like','vacation')
                         ->orWhere('title','like','holiday')
                         ->get();
-    
-    //NOTE : 
+
+    //NOTE :
     //It doesn't need to add % if using 'like' operator
 
 ```
@@ -167,11 +167,11 @@ Advance where orWhere grouping conditions:
                         ->where('date','>=','2016-04-10')
                         ->where('date','<=','2016-04-18')
                         ->get();
-    
-    //NOTE : 
-    //It will result query grouping 
-    // (title like vacation or title like holiday) 
-    // AND 
+
+    //NOTE :
+    //It will result query grouping
+    // (title like vacation or title like holiday)
+    // AND
     // (date >= 2016-04-10 and date <= 2016-04-18 )
 
 ```
@@ -183,7 +183,7 @@ Fetch a Roketin Object API by sorting on it's field:
 ```php
     /**
      * sorting object before fetch
-     * 
+     *
      * @param $field
      * @param $direction (optional) default is ASC
      */
@@ -191,7 +191,7 @@ Fetch a Roketin Object API by sorting on it's field:
     $posts = Roketin::post()->list()->sortBy('created_at')->get();
     $posts = Roketin::post()->list()->sortBy('created_at','DESC')->get();
 ```
-  
+
 ## Pagination
 
 Paginating fetch object
@@ -199,7 +199,7 @@ Paginating fetch object
 ```php
     /**
      * paginate object before fetch
-     * 
+     *
      * @param $size default value is 10
      * @param $page (optional)
      */
@@ -302,7 +302,7 @@ Get Delivery Cost:
         'weight'        => 1700,
         'courier'       => 'jne'
     ];
-    
+
     $expeditions = Roketin::expedition()->cost($delivery);
 ```
 
@@ -322,7 +322,7 @@ Create sales order:
      * @param array $products
      * @param $bcc(optional), default = null
      */
-     
+
      $order = [
         "member_id"                 => "5b55af8c6f6bfc0c74007955",
         "order_at"                  => "2009-09-09",
@@ -371,7 +371,7 @@ Create sales order:
                 "weight"        => 100
             }
           ]
-     ];                                
+     ];
     $order = Roketin::salesOrder()->store($order);
 ```
 
@@ -380,10 +380,10 @@ Search sales order:
     /**
      * @param $query
      */
-                                 
+
     $order = Roketin::salesOrder()->search($query)->get()
 ```
- 
+
 > **Note:**
 > - For detailed attribute, see sales order API documentation [HERE](http://docs.rengine.apiary.io/#reference/sales-order/sales-order)
 
@@ -410,7 +410,7 @@ Create payment order:
         "transaction_number"    => "T001092381",
         "attachment"            => $image
     ];
-    
+
     $payment = Roketin::payment()->confirm($payment);
 ```
 
@@ -452,7 +452,7 @@ Check validity of a voucher:
     /*
      * @param $code
      * @param $voucher_type (optional), default = null
-     * voucher type can be giftvoucher (voucher in 
+     * voucher type can be giftvoucher (voucher in
      * exchange to money nominal) or
      * other (voucher to exchange to free product)
      * default is voucher_type is other
@@ -506,7 +506,7 @@ Login:
 
     Roketin::auth()->login($user);
 ```
-   
+
 # Users
    Register new user:
 ```php

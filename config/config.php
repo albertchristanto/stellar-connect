@@ -11,7 +11,7 @@ return array(
     | you can set this value from .env file
      */
 
-    'api'             => env('ROKETIN_API', 'http://api.stellar.roketin.com'),
+    'api'             => env('ROKETIN_API', 'https://api.stellar.roketin.com'),
 
     'api-key'         => env('ROKETIN_API_KEY'),
 
@@ -25,7 +25,7 @@ return array(
     | API in http://r-gateway.roketin.com/ you can set this value from .env file
      */
 
-    'public_url'      => env('ROKETIN_PUBLIC', 'http://api.stellar.roketin.com'),
+    'public_url'      => env('ROKETIN_PUBLIC', 'https://api.stellar.roketin.com'),
 
     /*
     |--------------------------------------------------------------------------

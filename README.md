@@ -124,7 +124,7 @@ Fetching object with simple where conditions:
      * @param $value
      */
 
-    $posts = Roketin::post()->list()->where('title','like','vacation')->get();
+    $posts = Roketin::post()->list()->where('title', 'like', 'vacation')->get();
     
     //NOTE : 
     //It doesn't need to add % if using 'like' operator
@@ -189,7 +189,7 @@ Fetch a Roketin Object API by sorting on it's field:
      */
 
     $posts = Roketin::post()->list()->sortBy('created_at')->get();
-    $posts = Roketin::post()->list()->sortBy('created_at','DESC')->get();
+    $posts = Roketin::post()->list()->sortBy('created_at', 'DESC')->get();
 ```
   
 ## Pagination
@@ -204,8 +204,8 @@ Paginating fetch object
      * @param $page (optional)
      */
 
-    $posts = Roketin::posts()->list()->paginate(10)->get();
-    $posts = Roketin::posts()->list()->paginate(10,2)->get();
+    $posts = Roketin::post()->list()->paginate(10)->get();
+    $posts = Roketin::post()->list()->paginate(10,2)->get();
 ```
 
 ## Shipping
@@ -549,6 +549,32 @@ Update user data:
     ];
 
     Roketin::user()->update('5b6863e16f6bfc32ec003d1d', $user);
+```
+
+Show user data:
+```php
+    /**
+     * @param $id
+     * @return user object
+     */
+
+    Roketin::user()->show('5b6863e16f6bfc32ec003d1d');
+```
+
+Show user data:
+```php
+    /**
+     * @param $id
+     * @return user object
+     */
+
+    $params = [
+        "old_password"          => "secret",
+        "password"              => "secret123",
+        "password_confirmation" => "secret123"
+    ];
+
+    Roketin::user()->changePassword('5b6863e16f6bfc32ec003d1d', $params);
 ```
 
 > **Note:**

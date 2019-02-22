@@ -8,7 +8,7 @@ class RUser extends Roketin
     {
         parent::__construct();
 
-        $this->endPoint = '/api/v2/users';
+        $this->endPoint = '/auth/api/v2/users';
         
     }
 
@@ -34,6 +34,32 @@ class RUser extends Roketin
     public function update($id, $params)
     {   
         $this->routes = '/'.$id.'?';
+
+        return $this->callAPI($this->routes, $params, "POST");
+    }
+
+    /**
+     * Show User.
+     *
+     * @param $params
+     * @return mixed
+     */
+    public function show($id)
+    {   
+        $this->routes = '/'.$id.'?';
+
+        return $this->callAPI($this->routes, [], "POST");
+    }
+
+    /**
+     * Forgot User.
+     *
+     * @param $email
+     * @return mixed
+     */
+    public function changePassword($id, $params)
+    {
+        $this->routes = '/'.$id.'/account?';
 
         return $this->callAPI($this->routes, $params, "POST");
     }

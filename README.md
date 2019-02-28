@@ -16,7 +16,7 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ```php
 "require": {
     "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.1.0"
+    "roketin/stellar-connect": "v0.0.12"
 }
 ```
 
@@ -424,6 +424,7 @@ Send a message to Roketin Engine Inbox:
      * @param $message_title
      * @param $message_body
      * @param $bcc(optional), default = null
+     * @param $send_message(optional), default = false
      */
 
     $msg = Roketin::message()
@@ -433,7 +434,8 @@ Send a message to Roketin Engine Inbox:
                     '123123',
                     'test mesage',
                     'hai',
-                    'bcc@mailinator.com')
+                    'bcc@mailinator.com',
+                    false)
 ```
 
 ## Subscribe

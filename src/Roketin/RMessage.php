@@ -20,9 +20,9 @@ class RMessage extends Roketin
      * @param $bcc
      * @return mixed
      */
-    public function send($name, $email, $phone, $title, $body, $bcc = null)
+    public function send($name, $email, $phone, $title, $body, $bcc = null, $send_message = true)
     {
-        return $this->callAPI('', compact('name', 'email', 'phone', 'title', 'body', 'bcc'), "POST");
+        return $this->callAPI('', compact('name', 'email', 'phone', 'title', 'body', 'bcc', 'send_message'), "POST");
     }
 
     public function list()

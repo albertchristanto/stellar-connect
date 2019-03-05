@@ -48,7 +48,7 @@ class RUser extends Roketin
     {   
         $this->routes = '/'.$id.'?';
 
-        return $this->callAPI($this->routes, [], "POST");
+        return $this->callAPI($this->routes, [], "GET");
     }
 
     /**

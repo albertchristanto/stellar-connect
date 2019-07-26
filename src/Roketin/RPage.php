@@ -13,14 +13,14 @@ class RPage extends Roketin
 
     public function list()
     {
-        $this->routes = '?';
+        $this->routes = '?isClient=true&';
 
         return $this;
     }
 
     public function show($id = null)
     {
-        $this->routes = '/'.$id.'?';
+        $this->routes = '/'.$id.'?isClient=true&';
 
         return $this;
     }

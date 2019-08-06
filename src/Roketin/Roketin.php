@@ -53,7 +53,7 @@ class Roketin
     {
         $meth   = $this->fetch($this->_camelToSnake($func), $args);
         $result = self::get();
-        
+
         if (isset($result->errors)) {
             return false;
         }
@@ -381,6 +381,11 @@ class Roketin
     public function company()
     {
         return new RCompany;
+    }
+
+    public function wishlist()
+    {
+        return new RWishlist;
     }
 
     /**

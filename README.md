@@ -14,10 +14,10 @@ Documentation for the Roketin API can be found on the [Documentation](http://doc
 ### Laravel 5
 
 ```php
-"require": {
-    "laravel/framework": "5.0.*",
-    "roketin/stellar-connect": "v0.0.14"
-}
+    "require": {
+        "laravel/framework": "5.0.*",
+        "roketin/stellar-connect": "v0.0.15"
+    }
 ```
 
 Next, run the Composer update command from the Terminal:
@@ -31,12 +31,11 @@ Next, run the Composer update command from the Terminal:
 ## CONFIGURATION
 1. Open config/app.php and addd this line to your Service Providers Array
   ```php
-    Roketin\Providers\RoketinServiceProvider::class,
+    Roketin\Providers\RoketinServiceProvider::class
   ```
 
 2. Open config/app.php and addd this line to your Aliases
-
-```php
+  ```php
     'Roketin' => Roketin\Facades\RoketinFacade::class
   ```
 
@@ -56,9 +55,9 @@ Next, run the Composer update command from the Terminal:
 * [Sorting](#sorting)
 * [Pagination](#pagination)
 * [Shipping](#shipping)
-* [Social Media](#social_media)
-* [Company Detail](#company_detail)
-* [Page and Post](#page)
+* [Social Media](#social-media)
+* [Company Detail](#company-detail)
+* [Page and Post](#page-and-post)
 * [Expedition](#expedition)
 * [Bank](#bank)
 * [Sales Order](#order)
@@ -67,6 +66,7 @@ Next, run the Composer update command from the Terminal:
 * [Vouchers](#vouchers)
 * [Auth](#auth)
 * [User](#user)
+* [Wishlist](#wishlist)
 * [Others](#others)
 
 ## Basic
@@ -88,7 +88,7 @@ You can call a Roketin Object by using: **Roketin::model()->module()->get()**
 Fethcing single object with id/slug/etc:
 
 ```php
-    /*
+    /**
      * Same as fetching object, but in singular form (without 's')
      * the second argument can be id or slug
      * this is dynamic function call to Roketin Engine API
@@ -97,10 +97,9 @@ Fethcing single object with id/slug/etc:
     $menu = Roketin::menu()->show('asc-123123-asxzc')->get();
     $page = Roketin::page()->show('home')->get();
     $post = Roketin::post()->show('lastest-update')->get();
-
 ```
 
-## Basic
+## Show
 
 If you want get the details
 
@@ -128,7 +127,6 @@ Fetching object with simple where conditions:
 
     //NOTE :
     //It doesn't need to add % if using 'like' operator
-
 ```
 
 Fetching object with simple orWhere conditions:
@@ -148,7 +146,6 @@ Fetching object with simple orWhere conditions:
 
     //NOTE :
     //It doesn't need to add % if using 'like' operator
-
 ```
 
 Advance where orWhere grouping conditions:
@@ -173,7 +170,6 @@ Advance where orWhere grouping conditions:
     // (title like vacation or title like holiday)
     // AND
     // (date >= 2016-04-10 and date <= 2016-04-18 )
-
 ```
 
 ## Sorting
@@ -220,6 +216,7 @@ Get all available provinces (currently available in Indonesia only):
     /**
      * @param $country_id
      */
+
     $province = Roketin::province()->list('ID')->get();
 ```
 
@@ -244,7 +241,7 @@ Get all available district (currently available in Indonesia only):
 Get all available subdistrict (currently available in Indonesia only):
 ```php
     /**
- * @param $district_id
+     * @param $district_id
      */
 
     $subDistricts = Roketin::subDistrict()->list(9)->get();
@@ -263,7 +260,6 @@ Get all available countries:
 ```php
     $company = Roketin::company()->detail()->get();
 ```
-
 
 ## Page and Post
 
@@ -316,33 +312,33 @@ Get all available Bank:
 ## Order
 Create sales order:
 ```php
-    /*
+    /**
      * @param array $generalData
      * @param array $customerData
      * @param array $products
      * @param $bcc(optional), default = null
      */
 
-     $order = [
-        "member_id"                 => "5b55af8c6f6bfc0c74007955",
-        "order_at"                  => "2009-09-09",
-        "is_create_invoice"         => true,
-         "due_date_invoice"         => "2009-09-09",
-         "message_from_customer"    => "pesan",
-         "name"                     => "adin",
-         "email"                    => "test@gmail.com",
-         "phone"                    => "123123123",
-         "address"                  => "Bandung",
-         "send_invoice"             => true,
-         "shipping"                 => true,
-         "expedition_code"          => "jne",
-         "service_code"             => "oke",
-         "discounts"                => 10000,
-         "voucher_code"             => "voucher12009",
-         "tax"                      => 10,
-         "shipping_cost"            => 0,
-         "sender_id"                => "5b3309076f6bfc0460000b73",
-         "products"                 => [
+    $order = [
+        "member_id"             => "5b55af8c6f6bfc0c74007955",
+        "order_at"              => "2009-09-09",
+        "is_create_invoice"     => true,
+        "due_date_invoice"      => "2009-09-09",
+        "message_from_customer" => "pesan",
+        "name"                  => "adin",
+        "email"                 => "test@gmail.com",
+        "phone"                 => "123123123",
+        "address"               => "Bandung",
+        "send_invoice"          => true,
+        "shipping"              => true,
+        "expedition_code"       => "jne",
+        "service_code"          => "oke",
+        "discounts"             => 10000,
+        "voucher_code"          => "voucher12009",
+        "tax"                   => 10,
+        "shipping_cost"         => 0,
+        "sender_id"             => "5b3309076f6bfc0460000b73",
+        "products"              =>[
             {
                 "name"          => "Sepatu Merah",
                 "product_id"    => "5b6184386f6bfc3d18003eca",
@@ -370,8 +366,9 @@ Create sales order:
                 "add_cost"      => 0,
                 "weight"        => 100
             }
-          ]
-     ];
+        ]
+    ];
+
     $order = Roketin::salesOrder()->store($order);
 ```
 
@@ -417,7 +414,7 @@ Create payment order:
 ## Message
 Send a message to Roketin Engine Inbox:
 ```php
-    /*
+    /**
      * @param $sender_name
      * @param $sender_email
      * @param $sender_phone
@@ -427,21 +424,21 @@ Send a message to Roketin Engine Inbox:
      * @param $send_message(optional), default = false
      */
 
-    $msg = Roketin::message()
-                    ->send(
+    $msg = Roketin::message()->send(
                     'test',
                     'test@mailinator.com',
                     '123123',
                     'test mesage',
                     'hai',
-                    ['bcc@mailinator.com']
-                    false)
+                    ['bcc@mailinator.com'],
+                    false
+    );
 ```
 
 ## Subscribe
 Send a Subscribe to Roketin Engine Subscribe:
 ```php
-    /*
+    /**
      * @param $email
      */
 
@@ -451,7 +448,7 @@ Send a Subscribe to Roketin Engine Subscribe:
 ## Vouchers
 Check validity of a voucher:
 ```php
-    /*
+    /**
      * @param $code
      * @param $voucher_type (optional), default = null
      * voucher type can be giftvoucher (voucher in
@@ -510,7 +507,7 @@ Login:
 ```
 
 # Users
-   Register new user:
+Register new user:
 ```php
     /**
      * @param $first_name
@@ -581,6 +578,63 @@ Change Password:
 
 > **Note:**
 > - you can also use where(), orWhere(), etc query with this method
+
+## Wishlist
+
+Fetching wishlist by user id:
+
+```php
+    /**
+     * @param $user_id
+     */
+
+    $wishlist = Roketin::wishlist()->show('user_id')->get();
+```
+
+Fetching wishlist with simple where conditions:
+
+```php
+    /**
+     * @param $user_id
+     */
+
+    $wishlist = Roketin::wishlist()->show('user_id')->get();
+                        ->list()
+                        ->where('variant_id','like','abc1234')
+                        ->get();
+```
+
+Add wishlist:
+
+```php
+    /**
+     * @param $user_id
+     * @param $variant_id
+     */
+
+    $data = [
+        "user_id"    => "5b55af8c6f6bfc0c74007955",
+        "variant_id" => "5b55af8c6f6bfc0c74007955",
+    ];
+
+    $wishlist = Roketin::wishlist()->store($data);
+```
+
+Delete wishlist:
+
+```php
+    /**
+     * @param $user_id
+     * @param $variant_id
+     */
+
+    $data = [
+        "user_id"    => "5b55af8c6f6bfc0c74007955",
+        "variant_id" => "5b55af8c6f6bfc0c74007955",
+    ];
+
+    $wishlist = Roketin::wishlist()->store($data);
+```
 
 ## Others
 

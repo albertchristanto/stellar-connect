@@ -4,9 +4,12 @@ namespace Roketin;
 
 class RSalesOrder extends Roketin
 {
-    public function __construct()
+    public function __construct($member_id, $member_token)
     {
         parent::__construct();
+
+        $this->member_id = $member_id;
+        $this->member_token = $member_token;
 
         $this->endPoint = '/order/api/v1/sales-orders';
         

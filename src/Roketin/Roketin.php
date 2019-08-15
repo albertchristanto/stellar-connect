@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class Roketin
 {
+    protected $member_token;
+    public $member_id;
+
     // Test Change
 
     /**
@@ -42,7 +45,7 @@ class Roketin
     {
         $this->retval    = null;
         $this->client    = new \GuzzleHttp\Client();
-        $this->encrypter = new \Illuminate\Encryption\Encrypter(Config::get('roketin.encryption_key'), 'AES-256-CBC');
+        // $this->encrypter = new \Illuminate\Encryption\Encrypter(Config::get('roketin.encryption_key'), 'AES-256-CBC');
     }
 
     /**
@@ -253,14 +256,44 @@ class Roketin
     /**
      * @return mixed
      */
+    public function member() 
+    {
+        return new RMember();
+    }
+
+    public function address()
+    {
+        return new RAddress($this->member_id, $this->member_token);
+    }
+
+    public function contact()
+    {
+        return new RContact($this->member_id, $this->member_token);
+    }
+
+    public function wishlist()
+    {
+        return new RWishlist($this->member_id, $this->member_token);
+    }
+
+    public function salesOrder()
+    {
+        return new RSalesOrder($this->member_id, $this->member_token);
+    }
+
     public function shipping()
     {
         return new RShipping();
     }
 
-    public function salesOrder()
+    public function expedition()
     {
-        return new RSalesOrder();
+        return new RExpedition();
+    }
+
+    public function expeditionService()
+    {
+        return new RExpeditionService();
     }
 
     public function payment()
@@ -333,11 +366,6 @@ class Roketin
         return new RSubDistrict();
     }
 
-    public function expedition()
-    {
-        return new RExpedition();
-    }
-
     public function image()
     {
         return new RImage();
@@ -383,11 +411,6 @@ class Roketin
         return new RCompany;
     }
 
-    public function wishlist()
-    {
-        return new RWishlist;
-    }
-
     /**
      * @return mixed
      */
@@ -411,13 +434,23 @@ class Roketin
     {
         try {
             if (!$is_file) {
-                $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [
-                    'body'    => json_encode($extraParam),
-                    'headers' => [
+                if (isset($this->member_token)) {
+                    $headers = [
+                        "api-key"           => Config::get('roketin.api-key'),
+                        "member-key"        => $this->member_token,
+                        "Content-Type"      => "application/vnd.api+json",
+                        "Content-Length"    => 0,
+                    ];
+                } else {
+                    $headers = [
                         "api-key"           => Config::get('roketin.api-key'),
                         "Content-Type"      => "application/vnd.api+json",
                         "Content-Length"    => 0,
-                    ],
+                    ];
+                }
+                $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [
+                    'body'    => json_encode($extraParam),
+                    'headers' => $headers,
                 ]);
             } else {
                 $response = $this->client->request($method, Config::get('roketin.api') . $this->endPoint . $route, [

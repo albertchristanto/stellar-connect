@@ -66,7 +66,10 @@ Next, run the Composer update command from the Terminal:
 * [Vouchers](#vouchers)
 * [Auth](#auth)
 * [User](#user)
-* [Wishlist](#wishlist)
+* [Members](#member)
+* [Members-Address](#member-address)
+* [Members-Contact](#member-contact)
+* [Members-Wishlist](#member-wishlist)
 * [Others](#others)
 
 ## Basic
@@ -247,6 +250,11 @@ Get all available subdistrict (currently available in Indonesia only):
     $subDistricts = Roketin::subDistrict()->list(9)->get();
 ```
 
+Get free shipping information
+```php
+    $freeShipping = Roketin::shipping()->freeShipping()->show();
+```
+
 ## Social Media
 
 Get all available Social Media:
@@ -290,7 +298,12 @@ Get all available Expedition:
     $expeditions = Roketin::expedition()->list()->get();
 ```
 
-Get Delivery Cost:
+Get all available Expedition:
+```php
+    $expeditions = Roketin::expedition()->service()->list()->get();
+```
+
+Get Delivery Cost (Deprecated, use expedition service - cost below instead)
 ```php
     $delivery = [
         'origin'        => '501',
@@ -302,6 +315,24 @@ Get Delivery Cost:
     $expeditions = Roketin::expedition()->cost($delivery);
 ```
 
+Get Delivery Cost
+this version of Get Delivery Cost has been implemented with freeshipping support
+```php
+    $delivery = [
+            "origin" => "78",
+            "originType" => "city",
+            "destination" => "153",
+            "destinationType" => "city",
+            "weight" => 1700,
+            "courier" => "jne",
+            "service" => "YES",
+            "purchase" => 8000000
+        ];
+    $expeditions = Roketin::expedition()->service()->cost($delivery);
+    if ($expeditions->meta->status_code == 202) {
+        //Covered by freeshipping
+    }
+```
 ## Bank
 
 Get all available Bank:
@@ -579,16 +610,522 @@ Change Password:
 > **Note:**
 > - you can also use where(), orWhere(), etc query with this method
 
-## Wishlist
+## Member
 
-Fetching wishlist by user id:
+Register new member
+```php
+    /*
+    * REGISTER
+    *
+    * register() will return a RMember class which you can use to futher manipulate member
+    * register() will throw \Exception if something went wrong (Eg:email already used)
+    */
+    $register_data = [
+        'first_name' => 'Ali', //required
+        'last_name' => 'of Ababwa',
+        'email' => 'ali@ababwa.com', //required
+        'password' => 'secretPassword123!', //required
+        'password_confirmation' => 'secretPassword123!', //required
+        'addresses' => [ //addresses can be empty [] or null
+            [
+                'address_type' => 'perkantoran', //address_type can be anything, will be created if not yet exist
+                'address' => 'Jl. Asia Afrika No.116, RW.01, Paledang, Kec. Lengkong, Kota Bandung, Jawa Barat 40261',
+                'country' => [
+                    'label' => 'Indonesia',
+                    'value' => 'ID'
+                ],
+                'province' => [
+                    'label' => 'Jawa Barat',
+                    'value' => '9'
+                ],
+                'city' => [
+                    'label' => 'Kota Bandung',
+                    'value' => '23'
+                ],
+                'district' => [
+                    'label' => 'Kota Cibiru',
+                    'value' => '352'
+                ],
+                'postal_code' => '40524',
+                'direction' => 'Depan simpang lima kiri',
+                'coordinate' => [
+                    'lat' => 12.1232323,
+                    'lng' => 23.1232434
+                ],
+                'main_address' => true,
+                'active_status' => true,
+                'store_address' => false,
+            ], [ //One member can have more than one address
+                'address_type' => 'pantai',
+                'address' => 'Pangandaran Beach',
+                'country' => [
+                    'label' => 'Indonesia',
+                    'value' => 'ID'
+                ],
+                'province' => [
+                    'label' => 'Jawa Barat',
+                    'value' => '9'
+                ],
+                'city' => [
+                    'label' => 'Kota Bandung',
+                    'value' => '23'
+                ],
+                'district' => [
+                    'label' => 'Kota Cibiru',
+                    'value' => '352'
+                ],
+                'postal_code' => '40524',
+                'direction' => 'Lurus terus',
+                'coordinate' => [
+                    'lat' => 12.1232323,
+                    'lng' => 23.1232434
+                ],
+                'main_address' => false,
+                'store_address' => true,
+                'active_status' => true,
+            ]
+        ],
+        'contacts' => [ //contact can be empty or null
+            [ //shown bellow are list of all posible contact
+                "contact_type" => 1, //phone number
+                "phone_number" => "081111112222",
+                "emergency_contact" => true,
+                "whatsapp" => true,
+                "line" => true,
+                "main_contact" => true,
+                "active_status" => true
+            ], [
+                'contact_type' => 2, //email
+                'email' => 'athuria@pendragon.com',
+                'main_contact' => true,
+                'active_status' => true
+            ], [
+                "contact_type" => 3, //skype
+                "skype_id" => "1231243132134213",
+                "main_id" => true,
+                "active_status" => true,
+            ], [
+                "contact_type" => 4, //website
+                "url" => "https://www.google.com",
+                "active_status" => true,
+            ], [
+                "contact_type" => 5, //contact Person
+                "name" => "Eve",
+                "position" => "Secretary",
+                "start_date" => "2019-08-01 15:03:00",
+                "end_date" => "2019-08-17 15:03:00",
+                "until_now" => true,
+                "description" => "lorem ipsum"
+            ]
+        ]
+    ];
+    try {
+        $member = Roketin::member()->register($register_data);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
 
+    //If you want roketin to automagicaly send email confirmation and handle it for you, set the second argument of register() to true
+
+    try {
+        $member = Roketin::member()->register($register_data, true);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+
+    //You can ask roketin to resend email confirmation by using
+
+    $respone = $member->resendEmail();
+
+    //If you don't set it to true you need to handle email confirmation yourself by following these instruction;
+    //1. register() will throw an exception telling you that register has succeded. In the response thrown by register() will also be information about member_id and email_confirmation_token, you will use it for the next step
+    //2. you would want to send a custom email to the member that contail link with format '{your-custom-url}/handle-confirmation/{id}/{token}' just like forgot password
+    //3. In the aforementioned link, you would want to call
+
+    $response = Roketin::member()->handleEmailConfirmation($id, $token);
+
+    //stellar will handle the rest
+```
+
+Login member by email
+```php
+    /*
+     * LOGIN
+     * Login App
+     *
+     * Login() will return a RMember class which you can use to manipulate member
+     * login() will throw \Exception if something went wrong (Eg:wrong credential)
+     */
+    $credential = [
+        'email' => 'ali@ababwa.com',
+        'password' => 'secretPassword123!'
+    ];
+
+    try {
+        $member = Roketin::member()->login($credential);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+
+    //You can get RMember class for client's current session by using member - getSession
+    //NOTE : The routes that call register, login, getSession, and logout have to be within the 'web' middleware group in order to use these feature below AND DONT disrupt the application flow like using dd() or die()
+
+    try {
+        $member = Roketin::member()->getSession();
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+
+    //And log out by using member - logout
+    $response = Roketin::member()->logout();
+```
+
+Get member detail
+```php
+    /*
+     * SHOW
+     * There's two way you can get member's detail;
+     */
+    //1. By its id
+    $member_data = Roketin::member()->show('5d4a9d3ca051e83db4000148')->get();
+    //2. Or, by its object
+    $member_data = $member->show()->get();
+```
+
+Update member's profile
+```php
+    /*
+     * UPDATE PROFILE
+     *
+     * There's also two way you can change member's detail
+     * Note : To change its contact, and address, use their respective update method
+     * update() will throw \Exception if something went wrong (Eg:wrong field)
+     */
+    $change_data = [
+        'first_name' => 'Ali',
+        'last_name' => 'of Ababwa',
+    ];
+
+    try {
+        //1. By its id
+        Roketin::member()->update($change_data, '5d4a9d3ca051e83db4000148');
+        //2. Or, by its object
+        $member->update($change_data);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+```
+
+Change member's password
+```php
+    /*
+     * CHANGE PASSWORD
+     *
+     * changePassword() will throw \Exception if something went wrong (Eg:failed password confirmation)
+     */
+    $change_data_pass = [
+        'old_password' => 'secretPassword123*',
+        'new_password' => 'secretPassword123*',
+        'new_password_confirmation' => 'secretPassword123*'
+    ];
+
+    try {
+        $member->changePassword($change_data_pass);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+```
+
+Forgot password handler
+```php
+    /*
+     * Member - Forgot Password
+     *
+     * forgotPassword() will return member_id and a token to be used in handle forgot_password
+     * if you want stellar to automagically send email and handle forgot password for you, set $send_email to true
+     * forgotPassword() will throw \Exception if something went wrong (Eg: invalid email)
+     */
+    try {
+        $credential = Roketin::member()->forgotPassword('ali@ababwa.com');
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+
+    //You would want to send an email that carries $credential.user_id, $credential.token and a link to a website that handle forgot password request,
+    //There you would want to call this method using the aforementioned values in $credential as parameters
+
+    $params = [
+        'new_password' => 'notSoSecret123!',
+        'new_password_confirmation' => 'notSoSecret123!',
+    ];
+    try {
+        Roketin::member()->handleForgotPassword($params, $credential->data->user_id, $credential->data->token);
+    } catch(\Exception $exception) {
+        return response()->json(json_decode($exception->getMessage()));
+    }
+```
+
+Get Order History of a Member
+```php
+    $order = $member->salesOrder()->list()->get();
+```
+
+## Member-Address
+
+Get member's addresses
+```php
+    /*
+     * INDEX
+     *
+     * There's two way you can index address
+     * Everything else is as usual
+     */
+    //1. Show all address recorded for your company
+    $address_data = Roketin::address()->list()->get();
+
+    //2. Show only the address that a member have
+    $address_data = $member->address()->list()->get();
+```
+
+Show detailed member's addresses one by one
+```php
+    /*
+     * SHOW
+     * Show the detailed information of an address
+     *
+     * There's two way you can show address
+     * Everything else is as usual
+     */
+    //1. Show resource as usual
+    $address_data = Roketin::address()->show('5d4a9d3ca051e83db4000149')->get();
+
+    //2. Just like above, but with stricker security, only member that have the address can show the resource
+    $address_data = $member->address()->show('5d4a9d3ca051e83db4000149')->get();
+```
+
+Store a new address for a member
+```php
+    /*
+     * STORE
+     * Store an address to scm and pair it with the designated member
+     *
+     * There's two way you can store address
+     */
+    $params = [
+        'address_type' => 'perkantoran',
+        'address' => 'TAIPEI 102, 101th floor',
+        'country' => [
+            'label' => 'Indonesia',
+            'value' => 'ID'
+        ],
+        'province' => [
+            'label' => 'JAWA BARAT',
+            'value' => '32'
+        ],
+        'city' => [
+            'label' => 'KABUPATEN BANDUNG',
+            'value' => '3204'
+        ],
+        'district' => [
+            'label' => 'CIDEWAY',
+            'value' => '3204010'
+        ],
+        'postal_code' => '40524',
+        'direction' => 'Bunderan tamrin jangan belok belok',
+        'coordinate' => [
+            'lat' => 12.1232323,
+            'lng' => 23.1232434
+        ],
+        'main_address' => false,
+        'store_address' => false,
+        'active_status' => true,
+    ];
+    //1. Using member's id
+    $result = Roketin::address()->store($params, '5d4a9d3ca051e83db4000148');
+    //2. Using member's object
+    $result = $member->address()->store($params);
+```
+
+Update an existing address of a member
 ```php
     /**
-     * @param $user_id
+     * UPDATE
+     * Update an address
+     *
+     * There's two way you can store address,
+     * But both requires address_id as parameters
+     * because member - address is one - many relationship
      */
+    $params = [
+        'address' => 'TAIPEI 101, 101th floor penthouse',
+        'main_address' => true,
+        'store_address' => false,
+    ];
+    //1. Directly using Roketin Facade
+    $result = Roketin::address()->update($params, '5d503a1ca051e83c50001ff3');
+    //2. Using member's object, same as above but with more security,
+    //   only address coresponding member can update/change it
+    $result = $member->address()->update($params, '5d41343aa051e856940024aa');
+```
 
-    $wishlist = Roketin::wishlist()->show('user_id')->get();
+Delete an existing address of a member
+```php
+    /**
+     * DESTROY
+     * Delete an address from the database
+     *
+     * There's two way you can store address,
+     * But both requires address_id as parameters
+     * because member - address is one - many relationship
+     */
+    //1. Directly using Roketin Facade
+    $result = Roketin::address()->destroy('5d4d4608a051e83e28004a03');
+
+    //2. Using member's object, same as above but with more security,
+    //   only address coresponding member can update/change it
+    $result = $member->address()->destroy('5d3e7f9ca051e8bb8400ca00');
+```
+
+## Member Contact
+
+Get member's contact
+```php
+   /*
+    * INDEX
+    *
+    * There's two way you can index contact
+    * Everything else is as usual
+    */
+    //1. Show all contact recorded for your company
+    $contact_data = Roketin::contact()->list()->get();
+
+    //2. Show only the contact that a member have
+    $contact_data = $member->contact()->list()->get();
+```
+
+Get contact's delailed information
+```php
+    /*
+     * SHOW
+     * Show the detailed information of a contact
+     *
+     * There's two way you can show contact
+     * Everything else is as usual
+     */
+    //1. Show resource as usual
+    $contact_data = Roketin::contact()->show('5d523b89a051e83aa4006b16')->get();
+
+    //2. Just like above, but with stricker security, only member that have the contact can show the resource
+    $contact_data = $member->contact()->show('5d523b89a051e83aa4006b16')->get();
+```
+
+Store a new contact for a member
+```php
+    /*
+     * STORE
+     * Store a contact to scm and pair it with the designated member
+     *
+     * There's two way you can store address
+     */
+    //Shown below are the alternatives for member store parameter
+    $params = [
+        "contact_type" => 1, //phone number
+        "phone_number" => "081111112222",
+        "emergency_contact" => true,
+        "whatsapp" => true,
+        "line" => true,
+        "main_contact" => true,
+        "active_status" => true
+    ];
+    $params = [
+        'contact_type' => 2, //email
+        'email' => 'athuria@pendragon.com',
+        'main_contact' => true,
+        'active_status' => true
+    ];
+    $params = [
+        "contact_type" => 3, //skype
+        "skype_id" => "1231243132134213",
+        "main_id" => true,
+        "active_status" => true,
+    ];
+    $params = [
+        "contact_type" => 4, //website
+        "url" => "https://www.google.com",
+        "active_status" => true,
+    ];
+    $params = [
+        "contact_type" => 5, //Contact Person
+        "name" => "Eve",
+        "position" => "Secretary",
+        "start_date" => "2019-08-01 15:03:00",
+        "end_date" => "2019-08-17 15:03:00",
+        "until_now" => true,
+        "description" => "lorem ipsum"
+    ];
+
+    //1. Using member's id
+    $result = Roketin::contact()->store($params, '5d4a9d3ca051e83db4000148');
+    //2. Using member's object
+    $result = $member->contact()->store($params);
+```
+
+Update an existing contact of a member
+```php
+    /**
+     * UPDATE
+     * Update a contact
+     *
+     * There's two way you can store contact,
+     * But both requires address_id as parameters
+     * because member - contact is one - many relationship
+     */
+    $params = [
+        'contact_type' => 2,
+        'email' => 'athuria@pendragon.com',
+        'main_contact' => true,
+        'active_status' => true
+    ];
+    //1. Directly using Roketin Facade
+    $result = Roketin::contact()->update($params, '5d503a1ca051e83c50001ff3');
+    //2. Using member's object, same as above but with more security,
+    //   only contact's coresponding member can update/change it
+    $result = $member->contact()->update($params, '5d41343aa051e856940024aa');
+```
+
+Delete an existing contact of a member
+```php
+    /**
+     * DESTROY
+     * Delete a contact from the database
+     *
+     * There's two way you can store contact,
+     * But both requires contact_id as parameters
+     * because member - contact is one - many relationship
+     */
+    //1. Directly using Roketin Facade
+    $result = Roketin::contact()->destroy('5d4d4608a051e83e28004a03');
+
+    //2. Using member's object, same as above but with more security,
+    //only contact's coresponding member can update/change it
+    $result = $member->contact()->destroy('5d3e7f9ca051e8bb8400ca00');
+```
+
+## Member-Wishlist
+
+Fetching wishlist :
+```php
+    /*
+    * INDEX
+    *
+    * There's two way you can fetch contact
+    * Everything else is as usual
+    */
+    //1. Show all wishlist recorded for your company
+    $wishlist = Roketin::wishlist()->list()->get();
+
+    //2. Show only the wishlist that a member have
+    $wishlist = $member->wishlist()->list()->get();
 ```
 
 Fetching wishlist with simple where conditions:
@@ -598,42 +1135,51 @@ Fetching wishlist with simple where conditions:
      * @param $user_id
      */
 
-    $wishlist = Roketin::wishlist()->show('user_id')->get();
+    $wishlist = Roketin::wishlist()
                         ->list()
                         ->where('variant_id','like','abc1234')
                         ->get();
 ```
 
-Add wishlist:
-
+Add new wishlist:
 ```php
     /**
+     * STORE
+     * Store a contact to scm and pair it with the designated member
+     *
+     * There's two way you can store wishlist
      * @param $user_id
      * @param $variant_id
      */
 
     $data = [
-        "user_id"    => "5b55af8c6f6bfc0c74007955",
         "variant_id" => "5b55af8c6f6bfc0c74007955",
     ];
+    // By member's id
+    $wishlist = Roketin::wishlist()->store($data, '5b55af8c6f6bfc0c74007955');
 
-    $wishlist = Roketin::wishlist()->store($data);
+    // By its object
+    $wishlist = $member->store($data);
 ```
 
 Delete wishlist:
-
 ```php
     /**
+     * Delete
+     * Delete wishlist of a member
+     *
+     * There's two way you can store wishlist
      * @param $user_id
      * @param $variant_id
      */
 
     $data = [
-        "user_id"    => "5b55af8c6f6bfc0c74007955",
         "variant_id" => "5b55af8c6f6bfc0c74007955",
     ];
 
-    $wishlist = Roketin::wishlist()->store($data);
+    $wishlist = Roketin::wishlist()->delete($data, '5b55af8c6f6bfc0c74007955');
+    //or
+    $wishlist = $member->wishlist()->delete($data);
 ```
 
 ## Others

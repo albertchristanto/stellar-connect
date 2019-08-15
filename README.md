@@ -1,9 +1,10 @@
 # Roketin Client Template
+
 [![Latest Version](https://img.shields.io/github/release/roketin/stellar-connect.svg?style=flat-square)](https://github.com/roketin/stellar-connect/releases)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://packagist.org/packages/laravel/framework)
 [![Total Downloads](https://img.shields.io/packagist/dt/roketin/stellar-connect.svg?style=flat-square)](https://packagist.org/packages/roketin/stellar-connect)
 
-RClient is standard client application to [Roketin API](http://www.roketin.com)  to accelerate connecting and integrating basic feature of Roketin Engine API to client's website.
+RClient is standard client application to [Roketin API](http://www.roketin.com) to accelerate connecting and integrating basic feature of Roketin Engine API to client's website.
 
 ## API Documentation
 
@@ -29,48 +30,52 @@ Next, run the Composer update command from the Terminal:
     composer require "roketin/stellar-connect"
 
 ## CONFIGURATION
+
 1. Open config/app.php and addd this line to your Service Providers Array
-  ```php
-    Roketin\Providers\RoketinServiceProvider::class
-  ```
+
+```php
+  Roketin\Providers\RoketinServiceProvider::class
+```
 
 2. Open config/app.php and addd this line to your Aliases
-  ```php
-    'Roketin' => Roketin\Facades\RoketinFacade::class
-  ```
+
+```php
+  'Roketin' => Roketin\Facades\RoketinFacade::class
+```
 
 3. Please add to .env file
 
-  ```
-    ROKETIN_API=https://api.stellar.roketin.com
-    ROKETIN_PUBLIC=https://api.stellar.roketin.com
+```
+  ROKETIN_API=https://api.stellar.roketin.com
+  ROKETIN_PUBLIC=https://api.stellar.roketin.com
 
-    ROKETIN_API_KEY=api_key
-  ```
+  ROKETIN_API_KEY=api_key
+```
 
 ## HOW TO USE
-* [Basic Usage](#basic)
-* [Show](#show)
-* [Conditions](#conditions)
-* [Sorting](#sorting)
-* [Pagination](#pagination)
-* [Shipping](#shipping)
-* [Social Media](#social-media)
-* [Company Detail](#company-detail)
-* [Page and Post](#page-and-post)
-* [Expedition](#expedition)
-* [Bank](#bank)
-* [Sales Order](#order)
-* [Message](#message)
-* [Subscribe](#subscribe)
-* [Vouchers](#vouchers)
-* [Auth](#auth)
-* [User](#user)
-* [Members](#member)
-* [Members-Address](#member-address)
-* [Members-Contact](#member-contact)
-* [Members-Wishlist](#member-wishlist)
-* [Others](#others)
+
+- [Basic Usage](#basic)
+- [Show](#show)
+- [Conditions](#conditions)
+- [Sorting](#sorting)
+- [Pagination](#pagination)
+- [Shipping](#shipping)
+- [Social Media](#social-media)
+- [Company Detail](#company-detail)
+- [Page and Post](#page-and-post)
+- [Expedition](#expedition)
+- [Bank](#bank)
+- [Sales Order](#order)
+- [Message](#message)
+- [Subscribe](#subscribe)
+- [Vouchers](#vouchers)
+  <!-- -  [Auth](#auth) -->
+  <!-- - [User](#user) -->
+- [Members](#member)
+- [Members-Address](#member-address)
+- [Members-Contact](#member-contact)
+- [Members-Wishlist](#member-wishlist)
+- [Others](#others)
 
 ## Basic
 
@@ -210,11 +215,13 @@ Paginating fetch object
 ## Shipping
 
 Get all available countries:
+
 ```php
     $countries = Roketin::country()->list()->get();
 ```
 
 Get all available provinces (currently available in Indonesia only):
+
 ```php
     /**
      * @param $country_id
@@ -224,6 +231,7 @@ Get all available provinces (currently available in Indonesia only):
 ```
 
 Get all available city (currently available in Indonesia only):
+
 ```php
     /**
      * @param $province_id
@@ -233,6 +241,7 @@ Get all available city (currently available in Indonesia only):
 ```
 
 Get all available district (currently available in Indonesia only):
+
 ```php
     /**
      * @param $city_id
@@ -242,6 +251,7 @@ Get all available district (currently available in Indonesia only):
 ```
 
 Get all available subdistrict (currently available in Indonesia only):
+
 ```php
     /**
      * @param $district_id
@@ -251,6 +261,7 @@ Get all available subdistrict (currently available in Indonesia only):
 ```
 
 Get free shipping information
+
 ```php
     $freeShipping = Roketin::shipping()->freeShipping()->show();
 ```
@@ -258,6 +269,7 @@ Get free shipping information
 ## Social Media
 
 Get all available Social Media:
+
 ```php
     $medias = Roketin::socialMedia()->list()->get();
 ```
@@ -265,6 +277,7 @@ Get all available Social Media:
 ## Company Detail
 
 Get all available countries:
+
 ```php
     $company = Roketin::company()->detail()->get();
 ```
@@ -272,21 +285,25 @@ Get all available countries:
 ## Page and Post
 
 Get all Menu:
+
 ```php
     $menus = Roketin::menu()->list()->get();
 ```
 
 Get all Page:
+
 ```php
     $pages = Roketin::post()->list()->get();
 ```
 
 Get all Post:
+
 ```php
     $posts = Roketin::post()->list()->get();
 ```
 
 Get all Category Post:
+
 ```php
     $categories = Roketin::categoryPost()->list()->get();
 ```
@@ -294,16 +311,19 @@ Get all Category Post:
 ## Expedition
 
 Get all available Expedition:
+
 ```php
     $expeditions = Roketin::expedition()->list()->get();
 ```
 
 Get all available Expedition:
+
 ```php
     $expeditions = Roketin::expedition()->service()->list()->get();
 ```
 
 Get Delivery Cost (Deprecated, use expedition service - cost below instead)
+
 ```php
     $delivery = [
         'origin'        => '501',
@@ -317,6 +337,7 @@ Get Delivery Cost (Deprecated, use expedition service - cost below instead)
 
 Get Delivery Cost
 this version of Get Delivery Cost has been implemented with freeshipping support
+
 ```php
     $delivery = [
             "origin" => "78",
@@ -333,15 +354,19 @@ this version of Get Delivery Cost has been implemented with freeshipping support
         //Covered by freeshipping
     }
 ```
+
 ## Bank
 
 Get all available Bank:
+
 ```php
     $expeditions = Roketin::bank()->list()->get();
 ```
 
 ## Order
+
 Create sales order:
+
 ```php
     /**
      * @param array $generalData
@@ -404,6 +429,7 @@ Create sales order:
 ```
 
 Search sales order:
+
 ```php
     /**
      * @param $query
@@ -413,10 +439,13 @@ Search sales order:
 ```
 
 > **Note:**
+>
 > - For detailed attribute, see sales order API documentation [HERE](http://docs.rengine.apiary.io/#reference/sales-order/sales-order)
 
-----
+---
+
 Create payment order:
+
 ```php
     /**
      * @param $payment
@@ -443,7 +472,9 @@ Create payment order:
 ```
 
 ## Message
+
 Send a message to Roketin Engine Inbox:
+
 ```php
     /**
      * @param $sender_name
@@ -467,7 +498,9 @@ Send a message to Roketin Engine Inbox:
 ```
 
 ## Subscribe
+
 Send a Subscribe to Roketin Engine Subscribe:
+
 ```php
     /**
      * @param $email
@@ -477,7 +510,9 @@ Send a Subscribe to Roketin Engine Subscribe:
 ```
 
 ## Vouchers
+
 Check validity of a voucher:
+
 ```php
     /**
      * @param $code
@@ -495,8 +530,10 @@ Check validity of a voucher:
     $check = Roketin::voucher()->check($data)
 ```
 
-# Auth
+<!-- # Auth
+
 Resend activation code to email:
+
 ```php
     /**
      * @param $email
@@ -508,6 +545,7 @@ Resend activation code to email:
 ```
 
 Forgot password (generate and send token to user email):
+
 ```php
     /**
      * @param $email
@@ -520,6 +558,7 @@ Forgot password (generate and send token to user email):
 ```
 
 Login:
+
 ```php
     /**
      * @param $email
@@ -538,7 +577,9 @@ Login:
 ```
 
 # Users
+
 Register new user:
+
 ```php
     /**
      * @param $first_name
@@ -561,6 +602,7 @@ Register new user:
 ```
 
 Update user data:
+
 ```php
     /**
      * @param $id
@@ -582,6 +624,7 @@ Update user data:
 ```
 
 Show user data:
+
 ```php
     /**
      * @param $id
@@ -592,6 +635,7 @@ Show user data:
 ```
 
 Change Password:
+
 ```php
     /**
      * @param $id
@@ -608,11 +652,13 @@ Change Password:
 ```
 
 > **Note:**
-> - you can also use where(), orWhere(), etc query with this method
+>
+> - you can also use where(), orWhere(), etc query with this method -->
 
 ## Member
 
 Register new member
+
 ```php
     /*
     * REGISTER
@@ -748,6 +794,7 @@ Register new member
 ```
 
 Login member by email
+
 ```php
     /*
      * LOGIN
@@ -781,6 +828,7 @@ Login member by email
 ```
 
 Get member detail
+
 ```php
     /*
      * SHOW
@@ -793,6 +841,7 @@ Get member detail
 ```
 
 Update member's profile
+
 ```php
     /*
      * UPDATE PROFILE
@@ -817,6 +866,7 @@ Update member's profile
 ```
 
 Change member's password
+
 ```php
     /*
      * CHANGE PASSWORD
@@ -837,6 +887,7 @@ Change member's password
 ```
 
 Forgot password handler
+
 ```php
     /*
      * Member - Forgot Password
@@ -866,6 +917,7 @@ Forgot password handler
 ```
 
 Get Order History of a Member
+
 ```php
     $order = $member->salesOrder()->list()->get();
 ```
@@ -873,6 +925,7 @@ Get Order History of a Member
 ## Member-Address
 
 Get member's addresses
+
 ```php
     /*
      * INDEX
@@ -888,6 +941,7 @@ Get member's addresses
 ```
 
 Show detailed member's addresses one by one
+
 ```php
     /*
      * SHOW
@@ -904,6 +958,7 @@ Show detailed member's addresses one by one
 ```
 
 Store a new address for a member
+
 ```php
     /*
      * STORE
@@ -947,6 +1002,7 @@ Store a new address for a member
 ```
 
 Update an existing address of a member
+
 ```php
     /**
      * UPDATE
@@ -969,6 +1025,7 @@ Update an existing address of a member
 ```
 
 Delete an existing address of a member
+
 ```php
     /**
      * DESTROY
@@ -989,6 +1046,7 @@ Delete an existing address of a member
 ## Member Contact
 
 Get member's contact
+
 ```php
    /*
     * INDEX
@@ -1004,6 +1062,7 @@ Get member's contact
 ```
 
 Get contact's delailed information
+
 ```php
     /*
      * SHOW
@@ -1020,6 +1079,7 @@ Get contact's delailed information
 ```
 
 Store a new contact for a member
+
 ```php
     /*
      * STORE
@@ -1071,6 +1131,7 @@ Store a new contact for a member
 ```
 
 Update an existing contact of a member
+
 ```php
     /**
      * UPDATE
@@ -1094,6 +1155,7 @@ Update an existing contact of a member
 ```
 
 Delete an existing contact of a member
+
 ```php
     /**
      * DESTROY
@@ -1114,6 +1176,7 @@ Delete an existing contact of a member
 ## Member-Wishlist
 
 Fetching wishlist :
+
 ```php
     /*
     * INDEX
@@ -1142,6 +1205,7 @@ Fetching wishlist with simple where conditions:
 ```
 
 Add new wishlist:
+
 ```php
     /**
      * STORE
@@ -1163,6 +1227,7 @@ Add new wishlist:
 ```
 
 Delete wishlist:
+
 ```php
     /**
      * Delete
@@ -1185,6 +1250,7 @@ Delete wishlist:
 ## Others
 
 Get Product Variants By Category:
+
 ```php
     /**
      * @param $category_name
@@ -1199,6 +1265,7 @@ Get Product Variants By Category:
 ```
 
 Get Product Variants By Tag:
+
 ```php
     /**
      * @param $category_name
@@ -1213,6 +1280,7 @@ Get Product Variants By Tag:
 ```
 
 Get Product Sort By Relation:
+
 ```php
     /**
      * @param $category_name

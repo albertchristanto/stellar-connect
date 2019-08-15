@@ -2,13 +2,13 @@
 
 namespace Roketin;
 
-class RExpedition extends Roketin
+class RExpeditionService extends Roketin
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->endPoint = '/order/api/v1/company-expeditions';
+        $this->endPoint = '/order/api/v1/company-expedition-services';
         
     }
 
@@ -26,14 +26,9 @@ class RExpedition extends Roketin
         return $this;
     }
 
-    public function cost($params)
-    {
-        $this->routes = '/cost?';
+    public function cost($params) {
+        $this->routes = "/cost";
 
-        return $this->callAPI($this->routes, $params, "POST");
-    }
-
-    public function service() {
-        return new RExpeditionService;
+        return $this->callAPI($this->routes, $params, 'POST');
     }
 }

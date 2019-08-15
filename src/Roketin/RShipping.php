@@ -9,46 +9,16 @@ class RShipping extends Roketin
     {
         parent::__construct();
     }
-/**
- * @return mixed
- */
-    public function countries()
-    {
-        $this->routes = "shipping/countries";
 
-        return $this->get();
+    public function freeShipping() {
+        $this->endPoint = '/config/api/v1/freeshipping';
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function province($provinceid = null)
-    {
-        $this->routes = is_null($provinceid) ? "shipping/province" : "shipping/city?province=" . $provinceid;
+    public function show() {
+        $this->routes = '/show?show_service=true';
 
-        return is_null($provinceid) ? $this->get() : $this;
-    }
-
-    /**
-     * @param $province
-     * @return mixed
-     */
-    public function cities()
-    {
-        return $this->get();
-    }
-
-    /**
-     * @param $destination = city id
-     * @param $courier = jne/tiki/pos
-     * @param $weight = item weight
-     * @param $origin = city id
-     * @return mixed
-     */
-    public function costs($destination = 23, $courier = "jne", $weight = 1, $origin = 23)
-    {
-        $this->routes = "shipping/" . strtolower($courier) . "/cost?origin=" . $origin . "&destination=" . $destination . "&weight=" . $weight;
-
-        return $this->get();
+        return $this->callAPI($this->routes);
     }
 }
